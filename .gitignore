@@ -21,3 +21,6 @@ yarn-error.log*
 
 #user settings
 *.code-workspace
+
+#env
+*.env

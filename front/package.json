@@ -1,6 +1,7 @@
 {
-	"name": "my_vite_app",
-	"version": "0.0.0",
+	"name": "candidate",
+	"type": "module",
+	"version": "1.0.0",
 	"license": "ISC",
 	"scripts": {
 		"dev": "vite",
@@ -53,7 +54,8 @@
 	},
 	"jest": {
 		"roots": [
-			"<rootDir>/src"
+			"<rootDir>/src",
+			"<rootDir>/backend"
 		],
 		"setupFilesAfterEnv": [
 			"<rootDir>src/setupTests.ts"
