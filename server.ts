@@ -1,28 +1,73 @@
-import express from 'express'
-import mongoose from 'mongoose'
-import{config} from 'dotenv'
+import http from 'http';
+import express from 'express';
+import mongoose from 'mongoose';
+import logging from './config/loggings';
+import config from './config/config';
 
-const dotenv = config();
+const NAMESPACE = 'Server';
 
 const app = express();
 
+/** Parse the request */
 app.use(express.json());
-app.use(express.urlencoded({
-    extended: true
-}))
+app.use(
+	express.urlencoded({
+		extended: false,
+	})
+);
 
-app.get('/', (req, res) => {
-    res.send('Server is ready');
+/** Logging the request */
+app.use((req, res, next) => {
+	logging.info(
+		NAMESPACE,
+		`METHOD - [${req.method}], URL - [${req.url}], IP - [${req.socket.remoteAddress}]`
+	);
+
+	res.on('finish', () => {
+		logging.info(
+			NAMESPACE,
+			`METHOD - [${req.method}], URL - [${req.url}], IP - [${req.socket.remoteAddress}], STATUS - [${res.statusCode}]`
+		);
+	});
+
+	next();
 });
 
-app.use((err:any, req:any, res:any, next:any) => {
-    res.status(500).send({
-        message: err.message
-    })
-})
+/** Rules of our API */
+app.use((req, res, next) => {
+	res.header('Access-Control-Allow-Origin', '*');
+	res.header(
+		'Access-Control-Allow-Header',
+		'Origin, X-Requested-With, Content-Type'
+	);
 
-const port =  process.env.PORT || 5000;
+	if (req.method == 'OPtIONS') {
+		res.header('Access-Control-Allow-Methods', 'GET PATCH DELETE POST PUT');
 
-app.listen(port, () => {
-    console.log(`Serve at http://localhost:${port}`);
-})
+		return res.status(200).json({});
+	}
+	next();
+});
+
+/** Routes */
+/* app.get('/', (req, res) => {
+	res.send('Server is ready !');
+}); */
+
+/** Error Handling */
+app.use((req, res, next) => {
+	const error = new Error('Not Found');
+
+	return res.status(404).json({
+		message: error.message,
+	});
+});
+
+/** Create Server */
+const httpServer = http.createServer(app);
+httpServer.listen(config.server.port, () =>
+	logging.info(
+		NAMESPACE,
+		`Server running on ${config.server.hostname}:${config.server.port}`
+	)
+);
