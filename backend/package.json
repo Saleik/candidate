@@ -1,19 +1,20 @@
 {
 	"name": "candidate-backend",
-	"type": "module",
 	"version": "1.0.0",
 	"license": "ISC",
 	"scripts": {
-		"dev": "nodemon --watch backend --exec node --loader ts-node/esm ./server.ts",
-		"build": "tsc && vite build"
+		"dev": "nodemon --watch 'backend/**/*.ts' --exec 'ts-node' server.ts",
+		"build": "rm -rf build/ --write backend/ && tsc"
 	},
 	"dependencies": {
 		"dotenv": "^10.0.0",
 		"express": "^4.17.1",
-		"mongoose": "^5.12.13"
+		"mongoose": "^5.12.14"
 	},
 	"devDependencies": {
+		"@types/dotenv": "^8.2.0",
 		"@types/express": "^4.17.12",
+		"@types/mongoose": "^5.11.97",
 		"@types/node": "^15.12.2",
 		"eslint": "^7.25.0",
 		"eslint-plugin-flowtype": "^5.7.2",
@@ -21,6 +22,6 @@
 		"identity-obj-proxy": "^3.0.0",
 		"nodemon": "^2.0.7",
 		"ts-node": "^10.0.0",
-		"typescript": "^4.1.2"
+		"typescript": "^4.3.2"
 	}
 }
