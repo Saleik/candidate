@@ -1,10 +1,24 @@
 import http from 'http';
 import express from 'express';
 import mongoose from 'mongoose';
-import logging from './config/loggings';
+import logging from './config/logging';
 import config from './config/config';
+import userRoutes from './routes/user';
 
 const NAMESPACE = 'Server';
+
+/** connect to mongodb */
+mongoose
+	.connect(
+		config.database.url || 'mongodb://localhost/candidate',
+		config.database.options
+	)
+	.then((result) => {
+		logging.info(NAMESPACE, 'Connected to MongoDB !');
+	})
+	.catch((error) => {
+		logging.info(NAMESPACE, error.message, error);
+	});
 
 const app = express();
 
@@ -41,7 +55,7 @@ app.use((req, res, next) => {
 		'Origin, X-Requested-With, Content-Type'
 	);
 
-	if (req.method == 'OPtIONS') {
+	if (req.method == 'OPTIONS') {
 		res.header('Access-Control-Allow-Methods', 'GET PATCH DELETE POST PUT');
 
 		return res.status(200).json({});
@@ -50,9 +64,7 @@ app.use((req, res, next) => {
 });
 
 /** Routes */
-/* app.get('/', (req, res) => {
-	res.send('Server is ready !');
-}); */
+app.use('/user', userRoutes);
 
 /** Error Handling */
 app.use((req, res, next) => {
