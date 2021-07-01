@@ -1,11 +1,12 @@
+import { createGlobalStyle } from 'styled-components';
+
+export const GlobalStyle = createGlobalStyle`
 /**
 * Set up a decent box model on the root element
 */
 
 * {
 	max-width: 100%;
-	overflow-x: hidden;
-	overflow-y: hidden;
 	position: relative;
 }
 
@@ -42,3 +43,4 @@ body {
 		#2980b9
 	); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
+`;

@@ -1,14 +1,19 @@
-import * as React from 'react';
-import Logo from '../components/Logo';
-import './App.css';
+import React from 'react';
+import Footer from '../layout/footer';
+import Header from '../layout/header';
+import Main from '../layout/main';
+import { GlobalStyle } from '../styles/globalStyles';
 
 function App() {
 	return (
-		<div className='App'>
-			<Logo />
-			<h1>Starter Kit Vite 😍</h1>
-			<span>REACT + TYPESCRIPT + JEST + ENZYME</span>
-		</div>
+		<>
+			<GlobalStyle />
+			<div className='App'>
+				<Header />
+				<Main />
+				<Footer />
+			</div>
+		</>
 	);
 }
 
