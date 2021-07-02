@@ -1,6 +1,8 @@
 import { createGlobalStyle } from 'styled-components';
+import { normalize } from 'styled-normalize';
 
 export const GlobalStyle = createGlobalStyle`
+${normalize}
 /**
 * Set up a decent box model on the root element
 */

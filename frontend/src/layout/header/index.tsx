@@ -16,12 +16,12 @@ const Header = () => {
 						</li>
 						<li>
 							<q>
-								<i>Management your apply</i>
+								<i>Manage your apply</i>
 							</q>
 						</li>
 					</ul>
 				</nav>
-				<Button>Disconnected</Button>
+				<Button type='button'>Disconnected</Button>
 			</Container>
 		</header>
 	);
