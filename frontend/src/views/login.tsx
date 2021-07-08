@@ -1,47 +1,73 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Field from '../components/field';
 import Button from '../components/button';
+import Loader from '../components/loader';
+import MessageBox from '../components/messageBox';
 import styled from 'styled-components';
-import { signin } from '../actions/userActions';
+import { authSelector, login } from '../features/auth/authSlice';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import useToggle from '../hooks/useToggle';
+
 const Login = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const [message, setMessage] = useToggle(false);
+	const history = useHistory();
+	const { currentUser, isLoading, error, isAuth } = useSelector(authSelector);
 
-	const userSignin = useSelector((state) => state.userSignin);
 	const dispatch = useDispatch();
 
 	const submitHandler = (e: React.SyntheticEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		dispatch(signin(email, password));
+		dispatch(login(email.toString().toLowerCase(), password.toString()));
 	};
+	useEffect(() => {
+		if (isAuth) {
+			history.push('/');
+		}
 
+		if (error.message) setMessage();
+	}, [isAuth, error]);
 	return (
 		<Container>
 			<h2>Sign In</h2>
-			<form onSubmit={submitHandler}>
-				<Wrapper>
+			{error.message && message ? (
+				<MessageBox setToggle={setMessage} type='error'>
+					{error.message}
+				</MessageBox>
+			) : (
+				''
+			)}
+			{isLoading ? (
+				<Loader />
+			) : (
+				<form onSubmit={submitHandler}>
+					<Wrapper>
+						<Field
+							type='email'
+							name='email'
+							placeholder='Enter Your E-mail'
+							onChange={setEmail}
+							required
+						/>
+					</Wrapper>
 					<Field
-						type='email'
-						name='email'
-						placeholder='Enter Your E-mail'
-						onChange={setEmail}
+						type='password'
+						name='password'
+						placeholder='Enter Your Password'
+						onChange={setPassword}
+						required
 					/>
-				</Wrapper>
-				<Field
-					type='password'
-					name='password'
-					placeholder='Enter Your Password'
-					onChange={setPassword}
-				/>
-				<Wrapper>
-					<Button type='submit'>Sign In</Button>
-				</Wrapper>
-				<div>
-					New customer ? <Link to='#'>Create your account</Link>
-				</div>
-			</form>
+					<Wrapper>
+						<Button type='submit'>Sign In</Button>
+					</Wrapper>
+					<div>
+						New customer ? <Link to='/register'>Create your account</Link>
+					</div>
+				</form>
+			)}
 		</Container>
 	);
 };

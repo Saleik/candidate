@@ -6,29 +6,39 @@ type FieldProps = {
 	name: string;
 	onChange: React.Dispatch<React.SetStateAction<string>>;
 	label?: string;
-	placeholder: string;
+	placeholder?: string;
+	required: boolean;
 };
 
-const Field = ({ type, name, onChange, label, placeholder }: FieldProps) => {
+const Field = ({
+	type,
+	name,
+	onChange,
+	label,
+	placeholder,
+	required,
+}: FieldProps) => {
 	return (
 		<>
 			{label ? (
 				<>
-					<label htmlFor={name}>{name}</label>
-					<SInput
+					<label htmlFor={name}>{label}</label>
+					<Input
 						type={type}
 						onChange={(e) => onChange(e.target.value)}
 						name={name}
 						id={name}
+						required={required}
 					/>
 				</>
 			) : (
-				<SInput
+				<Input
 					type={type}
 					onChange={(e) => onChange(e.target.value)}
 					name={name}
 					id={name}
 					placeholder={placeholder}
+					required={required}
 				/>
 			)}
 		</>
@@ -37,13 +47,18 @@ const Field = ({ type, name, onChange, label, placeholder }: FieldProps) => {
 
 export default Field;
 
-const SInput = styled.input`
+Field.defaultProps = {
+	type: 'text',
+	required: false,
+};
+const Input = styled.input`
 	border: 0;
 	border-bottom: 0.1rem solid #000;
 	background-color: unset;
 	outline: none;
 	color: #000;
 	width: 100%;
+	margin-bottom: 0.5rem;
 
 	::placeholder {
 		color: #000;

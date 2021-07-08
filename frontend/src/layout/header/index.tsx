@@ -1,8 +1,13 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import logo from '../../assets/images/logo.svg';
 import Button from '../../components/button';
+import { authSelector, logOut } from '../../features/auth/authSlice';
 const Header = () => {
+	const { currentUser } = useSelector(authSelector);
+	const dispatch = useDispatch();
+	const userLogOut = dispatch(logOut);
 	return (
 		<header>
 			<Container>
@@ -21,7 +26,11 @@ const Header = () => {
 						</li>
 					</ul>
 				</nav>
-				<Button type='button'>Disconnected</Button>
+				{currentUser?.token && (
+					<Button type='button' onClick={userLogOut}>
+						Log Out
+					</Button>
+				)}
 			</Container>
 		</header>
 	);

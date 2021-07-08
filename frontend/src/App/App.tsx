@@ -27,7 +27,6 @@ export default App;
 const PageContainer = styled.div`
 	position: relative;
 	min-height: 100vh;
-	padding-bottom: 2.5rem;
 `;
 
 const Container = styled.main`
@@ -35,4 +34,5 @@ const Container = styled.main`
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
+	padding: 2.5rem;
 `;

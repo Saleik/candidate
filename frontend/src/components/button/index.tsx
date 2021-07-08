@@ -1,14 +1,24 @@
-import React, { Children, ReactChild, ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import styled from 'styled-components';
+import { AppThunk } from '../../store/store';
 type ButtonProps = {
 	children: ReactNode;
 	type: 'button' | 'submit' | 'reset';
+	onClick?: () => AppThunk;
 };
-const Button = ({ children, type }: ButtonProps) => {
-	return <Btn type={type}>{children}</Btn>;
+const Button = ({ children, type, onClick }: ButtonProps) => {
+	return (
+		<Btn onClick={onClick} type={type}>
+			{children}
+		</Btn>
+	);
 };
 
 export default Button;
+
+Button.defaultProps = {
+	type: 'button',
+};
 
 const Btn = styled.button`
 	background-color: #ffa31a;
