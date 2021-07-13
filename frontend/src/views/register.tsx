@@ -1,91 +1,134 @@
-import React, { useState } from 'react';
+import React, { SyntheticEvent, useEffect, useReducer, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '../components/button';
 import Field from '../components/field';
+import Loader from '../components/loader';
 import MessageBox from '../components/messageBox';
+import { registerSelector, signUp } from '../features/register/registerSlice';
 import useToggle from '../hooks/useToggle';
+export interface FormState {
+	firstname: string;
+	lastname: string;
+	email: string;
+	password: string;
+}
 
 const Register = () => {
-	//E-mail
-	const [email, setEmail] = useState('');
-	const [emailErr, setEmailErr] = useState('');
 	const validEmail = new RegExp(
 		'^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$'
 	);
-	//Password
+
+	const [firstname, setFirstname] = useState('');
+	const [lastname, setLastname] = useState('');
+	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
-	const [pwdError, setPwdError] = useState('');
+	const [errorMessage, setErrorMessage] = useState<boolean | string>(false);
+	const [showMessage, setShowMessage] = useToggle(false);
 
-	const [errorForm, setErrorForm] = useToggle(false);
+	const { isRegister, isLoading, error } = useSelector(registerSelector);
+	const dispatch = useDispatch();
+	const history = useHistory();
 
 	const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		if (!validEmail.test(email)) {
-			setEmailErr('Invalid E-mail');
-			setErrorForm();
-		}
+		if (
+			!!lastname &&
+			!!firstname &&
+			!!email &&
+			!!password &&
+			!!confirmPassword
+		) {
+			if (validEmail.test(email)) {
+				if (password === confirmPassword) {
+					const formData: FormState = {
+						firstname: firstname.toString().toLowerCase(),
+						lastname: lastname.toString().toLowerCase(),
+						email: email.toString().toLowerCase(),
+						password: password.toString(),
+					};
 
-		if (password.length > 0) {
-			if (password === confirmPassword) {
-				//TODO:Store to bdd
-
-				console.log('good');
+					dispatch(signUp(formData));
+				} else {
+					setErrorMessage('Password Not Identical');
+					setShowMessage();
+				}
 			} else {
-				setPwdError('Please Enter a Password');
-				setErrorForm();
+				setErrorMessage('E-mail Invalid');
+				setShowMessage();
 			}
 		} else {
-			setPwdError('Please Enter a Password');
-			setErrorForm();
+			setErrorMessage('Please fill in all fields.');
+			setShowMessage();
 		}
 	};
+
+	console.log(isRegister);
+	useEffect(() => {
+		if (isRegister) history.push('/');
+		if (error.message) {
+			setErrorMessage(error.message);
+			setShowMessage();
+		}
+	}, [error, isRegister]);
 	return (
 		<Container>
 			<h2>Register Form</h2>
-			{emailErr && (
-				<MessageBox setToggle={setErrorForm} type='warning'>
-					{emailErr}
+			{showMessage && (
+				<MessageBox setToggle={setShowMessage} type='warning'>
+					{errorMessage}
 				</MessageBox>
 			)}
-			{pwdError && (
-				<MessageBox setToggle={setErrorForm} type='warning'>
-					{pwdError}
-				</MessageBox>
+			{isLoading ? (
+				<Loader />
+			) : (
+				<form onSubmit={handleSubmit}>
+					<div>
+						<Field name='firstname' label='Firstname' onChange={setFirstname} />
+					</div>
+					<div>
+						<Field
+							name='lastname'
+							label='Lastname'
+							onChange={setLastname}
+							required
+						/>
+					</div>
+					<div>
+						<Field
+							type='email'
+							name='email'
+							label='E-mail'
+							onChange={setEmail}
+							required
+						/>
+					</div>
+					<div>
+						<Field
+							type='password'
+							name='password'
+							label='Password'
+							onChange={setPassword}
+							required
+						/>
+					</div>
+					<div>
+						<Field
+							type='password'
+							name='confirmPassword'
+							label='Confirm Your Password'
+							onChange={setConfirmPassword}
+							required
+						/>
+					</div>
+					<br />
+					<div>
+						<Button type='submit'>Sign Up</Button>
+					</div>
+				</form>
 			)}
-			<form onSubmit={handleSubmit}>
-				<div>
-					<Field
-						type='email'
-						name='email'
-						label='E-mail'
-						onChange={setEmail}
-						required
-					/>
-				</div>
-				<div>
-					<Field
-						type='password'
-						name='password'
-						label='Password'
-						onChange={setPassword}
-						required
-					/>
-				</div>
-				<div>
-					<Field
-						type='password'
-						name='confirmPassword'
-						label='Confirm Your Password'
-						onChange={setConfirmPassword}
-						required
-					/>
-				</div>
-				<br />
-				<div>
-					<Button type='submit'>Sign Up</Button>
-				</div>
-			</form>
 		</Container>
 	);
 };

@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { Dispatch } from 'react';
 import styled from 'styled-components';
 
 type FieldProps = {
 	type: string;
 	name: string;
-	onChange: React.Dispatch<React.SetStateAction<string>>;
+	onChange: Dispatch<React.SetStateAction<string>>;
 	label?: string;
 	placeholder?: string;
 	required: boolean;

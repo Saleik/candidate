@@ -2,25 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from '../../store/store';
 import { RootState } from '../../store/rootReducer';
 import axios from 'axios';
-const ENDPOINT = 'http://localhost:5000/api';
-export interface AuthError {
-	message: string | null;
-}
-
-export interface AuthState {
-	isAuth: boolean;
-	currentUser?: CurrentUser;
-	isLoading: boolean;
-	error: AuthError;
-}
-
-export interface CurrentUser {
-	_id: string;
-	firstname: string;
-	lastname: string;
-	email: string;
-	token: string;
-}
+import { AuthError, AuthState, CurrentUser, Data } from '../types';
+export const ENDPOINT = 'http://localhost:5000/api';
 
 export const initialState: AuthState = {
 	isAuth: localStorage.getItem('currentUser') ? true : false,
@@ -31,9 +14,6 @@ export const initialState: AuthState = {
 	error: { message: null },
 };
 
-interface Data {
-	data: CurrentUser;
-}
 export const authSlice = createSlice({
 	name: 'auth',
 	initialState,
