@@ -7,11 +7,11 @@ type Users = {
 	password: string;
 }[];
 
-interface Idata {
+interface IData {
 	users: Users;
 }
 
-const data: Idata = {
+const data: IData = {
 	users: [
 		{
 			firstname: 'Kevin',

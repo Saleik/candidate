@@ -13,5 +13,5 @@ router.get('/validate', controllerUser.validateToken);
 router.post('/register', controllerUser.register);
 
 /** login */
-router.post('/signin', controllerUser.login);
+router.post('/signin', controllerUser.signin);
 export = router;
