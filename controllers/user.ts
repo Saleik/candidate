@@ -3,7 +3,7 @@ import logging from '../config/logging';
 import User from '../models/user';
 import generateJWT from '../middlewares/generateJWT';
 import data from '../data';
-import bcrypt from 'bcrypt';
+import bcrypt, { hash } from 'bcrypt';
 
 const NAMESPACE = 'User';
 
@@ -22,8 +22,8 @@ const validateToken = (req: Request, res: Response, next: NextFunction) => {
 	});
 };
 
-const login = async (req: Request, res: Response, next: NextFunction) => {
-	logging.info(NAMESPACE, `Login to app.`);
+const signin = async (req: Request, res: Response, next: NextFunction) => {
+	logging.info(NAMESPACE, `Signin to app.`);
 
 	const user = await User.findOne({
 		email: req.body.email,
@@ -38,30 +38,41 @@ const login = async (req: Request, res: Response, next: NextFunction) => {
 				email: user.email,
 				token: generateJWT(user),
 			});
+
+			return;
 		}
 	}
+	res.status(401).send({
+		message: 'invalid email or password',
+	});
 };
 
-const register = (req: Request, res: Response, next: NextFunction) => {
+const register = async (req: Request, res: Response, next: NextFunction) => {
 	logging.info(NAMESPACE, `Register user in db.`);
 
-	const { email, password } = req.body;
+	const { firstname, lastname, email, password } = req.body;
 
-	bcrypt.hash(password, 10, (hashError, hash) => {
-		if (hashError) {
-			return res.status(500).send({
-				message: hashError.message,
-				error: hashError,
-			});
-		}
+	const user = new User({
+		firstname: firstname,
+		lastname: lastname,
+		email: email,
+		password: bcrypt.hashSync(password, 10),
 	});
 
-	//TODO: Insert user into DB here
+	const createdUser = await user.save();
+
+	res.status(201).send({
+		_id: createdUser._id,
+		firstname: createdUser.firstname,
+		lastname: createdUser.lastname,
+		email: createdUser.email,
+		token: generateJWT(createdUser),
+	});
 };
 
 export default {
 	seed,
-	login,
+	signin,
 	validateToken,
 	register,
 };

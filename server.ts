@@ -49,14 +49,14 @@ app.use((req, res, next) => {
 
 /** Rules of our API */
 app.use((req, res, next) => {
-	res.header('Access-Control-Allow-Origin', '*');
+	res.header('Access-Control-Allow-Origin', 'http://localhost:3000');
 	res.header(
-		'Access-Control-Allow-Header',
-		'Origin, X-Requested-With, Content-Type'
+		'Access-Control-Allow-Headers',
+		'Origin, X-Requested-With, Content-Type, Accept'
 	);
 
 	if (req.method == 'OPTIONS') {
-		res.header('Access-Control-Allow-Methods', 'GET PATCH DELETE POST PUT');
+		res.header('Access-Control-Allow-Methods', 'GET, PATCH, DELETE, POST, PUT');
 
 		return res.status(200).json({});
 	}
@@ -64,7 +64,7 @@ app.use((req, res, next) => {
 });
 
 /** Routes */
-app.use('/user', userRoutes);
+app.use('/api/user', userRoutes);
 
 /** Error Handling */
 app.use((req, res, next) => {

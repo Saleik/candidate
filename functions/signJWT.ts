@@ -13,7 +13,6 @@ const signJWT = (
 	let expirationTime =
 		timeSinchEpoch + Number(config.server.token.expireTime) * 100000;
 	let expirationTimeInSeconds = Math.floor(expirationTime / 1000);
-	``;
 
 	logging.info(NAMESPACE, `Attempting to sign token for ${user.firstname}`);
 
