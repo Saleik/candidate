@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import logging from './config/logging';
 import config from './config/config';
 import userRoutes from './routes/user';
+import applyRoutes from './routes/apply';
 
 const NAMESPACE = 'Server';
 
@@ -65,6 +66,7 @@ app.use((req, res, next) => {
 
 /** Routes */
 app.use('/api/user', userRoutes);
+app.use('/api/apply', applyRoutes);
 
 /** Error Handling */
 app.use((req, res, next) => {
