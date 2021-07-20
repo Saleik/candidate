@@ -3,7 +3,7 @@ import logging from '../config/logging';
 import User from '../models/user';
 import generateJWT from '../middlewares/generateJWT';
 import data from '../data';
-import bcrypt, { hash } from 'bcrypt';
+import { hashSync, compareSync } from 'bcrypt';
 
 const NAMESPACE = 'User';
 
@@ -30,7 +30,7 @@ const signin = async (req: Request, res: Response, next: NextFunction) => {
 	});
 
 	if (user) {
-		if (bcrypt.compareSync(req.body.password, user.password)) {
+		if (compareSync(req.body.password, user.password)) {
 			res.status(200).send({
 				_id: user._id,
 				firstname: user.firstname,
@@ -53,10 +53,10 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 	const { firstname, lastname, email, password } = req.body;
 
 	const user = new User({
-		firstname: firstname,
-		lastname: lastname,
-		email: email,
-		password: bcrypt.hashSync(password, 10),
+		firstname: firstname.toString(),
+		lastname: lastname.toString(),
+		email: email.toString(),
+		password: hashSync(password, 10),
 	});
 
 	const createdUser = await user.save();
