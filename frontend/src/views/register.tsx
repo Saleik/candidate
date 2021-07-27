@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -6,7 +6,7 @@ import Button from '../components/button';
 import Field from '../components/field';
 import Loader from '../components/loader';
 import MessageBox from '../components/messageBox';
-import { registerSelector, signUp } from '../features/register/registerSlice';
+import { registerSelector, signUp } from '../features/user/registerSlice';
 import useToggle from '../hooks/useToggle';
 export interface FormState {
 	firstname: string;
@@ -32,6 +32,7 @@ const Register = () => {
 	const dispatch = useDispatch();
 	const history = useHistory();
 
+	//FIXME: on submit with incomplete input break CSS
 	const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		if (
@@ -65,7 +66,6 @@ const Register = () => {
 		}
 	};
 
-	console.log(isRegister);
 	useEffect(() => {
 		if (isRegister) history.push('/');
 		if (error.message) {

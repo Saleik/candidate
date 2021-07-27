@@ -1,11 +1,13 @@
-import registerSlice from './../features/register/registerSlice';
+import getAllSlice from './../features/apply/getAllSlice';
+import registerSlice from '../features/user/registerSlice';
 import authSlice from './../features/auth/authSlice';
 import { combineReducers } from '@reduxjs/toolkit';
 import store from './store';
 
 const rootReducer = combineReducers({
 	auth: authSlice,
-	register: registerSlice,
+	userRegister: registerSlice,
+	applies: getAllSlice,
 });
 
 export type RootState = ReturnType<typeof store.getState>;

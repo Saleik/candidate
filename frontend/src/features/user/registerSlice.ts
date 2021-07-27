@@ -1,9 +1,10 @@
-import { AuthError, Data, RegisterData, RegisterState } from './../types';
+import { IError, UserData, RegisterData, RegisterState } from '../types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from '../../store/store';
 import { RootState } from '../../store/rootReducer';
 import axios from 'axios';
-import { ENDPOINT, setAuthSuccess } from '../auth/authSlice';
+import { setAuthSuccess } from '../auth/authSlice';
+import endpoints from '../endpoints';
 
 export const initialState: RegisterState = {
 	isRegister: false,
@@ -21,7 +22,7 @@ export const registerSlice = createSlice({
 		setRegisterSuccess: (state, { payload }: PayloadAction<boolean>) => {
 			state.isRegister = true;
 		},
-		setRegisterFailed: (state, { payload }: PayloadAction<AuthError>) => {
+		setRegisterFailed: (state, { payload }: PayloadAction<IError>) => {
 			state.error = payload;
 			state.isRegister = false;
 		},
@@ -31,24 +32,27 @@ export const registerSlice = createSlice({
 export const { setRegisterFailed, setRegisterSuccess, setLoading } =
 	registerSlice.actions;
 
-export const registerSelector = (state: RootState) => state.register;
+export const registerSelector = (state: RootState) => state.userRegister;
 
 export const signUp =
 	({ firstname, lastname, email, password }: RegisterData): AppThunk =>
 	async (dispatch) => {
 		try {
 			dispatch(setLoading(true));
-			const { data }: Data = await axios.post(`${ENDPOINT}/user/register`, {
-				firstname,
-				lastname,
-				email,
-				password,
-			});
+			const { data }: UserData = await axios.post(
+				`${endpoints.REGISTER_USER_API}`,
+				{
+					firstname,
+					lastname,
+					email,
+					password,
+				}
+			);
 			dispatch(setRegisterSuccess(true));
 			dispatch(setAuthSuccess(data));
 			localStorage.setItem('currentUser', JSON.stringify(data));
 		} catch (error) {
-			const errorMessage: AuthError = {
+			const errorMessage: IError = {
 				message: error.response?.data.message || error.message,
 			};
 			dispatch(setRegisterFailed(errorMessage));

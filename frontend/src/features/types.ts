@@ -1,4 +1,4 @@
-export interface AuthError {
+export interface IError {
 	message: string | null;
 }
 
@@ -6,13 +6,13 @@ export interface AuthState {
 	isAuth: boolean;
 	currentUser?: CurrentUser;
 	isLoading: boolean;
-	error: AuthError;
+	error: IError;
 }
 
 export interface RegisterState {
 	isRegister: boolean;
 	isLoading: boolean;
-	error: AuthError;
+	error: IError;
 }
 
 export interface RegisterData {
@@ -21,7 +21,6 @@ export interface RegisterData {
 	email: string;
 	password: string;
 }
-
 export interface CurrentUser {
 	_id: string;
 	firstname: string;
@@ -30,6 +29,23 @@ export interface CurrentUser {
 	token: string;
 }
 
-export interface Data {
+export interface UserData {
 	data: CurrentUser;
+}
+
+export type Applies = {
+	corporation: string;
+	position: string;
+	city: string;
+	firstApply: Date;
+	revival: Date;
+	updateAt: Date;
+};
+export interface GetApplies {
+	applies: null | Applies[];
+	isLoading: boolean;
+	error: IError;
+}
+export interface AppliesData {
+	data: Applies[];
 }

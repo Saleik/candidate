@@ -2,8 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from '../../store/store';
 import { RootState } from '../../store/rootReducer';
 import axios from 'axios';
-import { AuthError, AuthState, CurrentUser, Data } from '../types';
-export const ENDPOINT = 'http://localhost:5000/api';
+import { IError, AuthState, CurrentUser, UserData } from '../types';
+import endpoints from '../endpoints';
 
 export const initialState: AuthState = {
 	isAuth: localStorage.getItem('currentUser') ? true : false,
@@ -29,7 +29,7 @@ export const authSlice = createSlice({
 			state.isAuth = false;
 			state.currentUser = undefined;
 		},
-		setAuthFailed: (state, { payload }: PayloadAction<AuthError>) => {
+		setAuthFailed: (state, { payload }: PayloadAction<IError>) => {
 			state.error = payload;
 			state.isAuth = false;
 		},
@@ -46,14 +46,14 @@ export const login =
 	async (dispatch) => {
 		try {
 			dispatch(setLoading(true));
-			const { data }: Data = await axios.post(`${ENDPOINT}/user/signin`, {
+			const { data }: UserData = await axios.post(`${endpoints.AUTH_API}`, {
 				email,
 				password,
 			});
 			dispatch(setAuthSuccess(data));
 			localStorage.setItem('currentUser', JSON.stringify(data));
 		} catch (error) {
-			const errorMessage: AuthError = {
+			const errorMessage: IError = {
 				message: error.response?.data.message || error.message,
 			};
 			dispatch(setAuthFailed(errorMessage));

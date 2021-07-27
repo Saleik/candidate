@@ -12,7 +12,7 @@ const seed = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 const register = async (req: Request, res: Response, next: NextFunction) => {
-	logging.info(NAMESPACE, 'Register apply in db');
+	logging.info(NAMESPACE, 'Register apply to db');
 
 	const { corporation, position, city, firstApply, revival, userId } = req.body;
 
@@ -37,14 +37,14 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 const getAll = async (req: Request, res: Response, next: NextFunction) => {
 	logging.info(NAMESPACE, 'Get all current User applies');
 
-	const userId = req.query.id;
+	const userId = req.query.userId;
 
 	const applies = await Apply.find({ userId: userId }).catch(
 		(err: { message: string }) => console.log('Caught:', err.message)
 	);
 
 	if (applies) {
-		res.status(200).send({ applies });
+		res.status(200).send(applies);
 		return;
 	}
 	res.status(404).send({
