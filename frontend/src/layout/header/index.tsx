@@ -9,40 +9,39 @@ const Header = () => {
 	const dispatch = useDispatch();
 	const userLogOut = dispatch(logOut);
 	return (
-		<header>
-			<Container>
-				<h1>
-					<img src={logo} width='50' height='100' alt='logo' />
-				</h1>
-				<nav>
-					<ul>
-						<li>
-							<h1>Candidate</h1>
-						</li>
-						<li>
-							<q>
-								<i>Manage your apply</i>
-							</q>
-						</li>
-					</ul>
-				</nav>
-				{currentUser?.token && (
-					<Button type='button' onClick={userLogOut}>
-						Log Out
-					</Button>
-				)}
-			</Container>
-		</header>
+		<Container>
+			<h1>
+				<img src={logo} width='50' height='100' alt='logo' />
+			</h1>
+			<nav>
+				<ul>
+					<li>
+						<h1>Candidate</h1>
+					</li>
+					<li>
+						<q>
+							<i>Manage your apply</i>
+						</q>
+					</li>
+				</ul>
+			</nav>
+			{currentUser?.token && (
+				<Button type='button' onClick={userLogOut}>
+					Log Out
+				</Button>
+			)}
+		</Container>
 	);
 };
 
 export default Header;
 
-const Container = styled.div`
+const Container = styled.header`
+	grid-area: header;
+	justify-self: center;
 	width: 960px;
 	max-width: 100%;
 	padding: 1rem;
-	margin: 0 auto;
 	display: flex;
 	align-items: center;
 	justify-content: space-around;

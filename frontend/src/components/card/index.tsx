@@ -1,11 +1,10 @@
 import React, { ReactNode } from 'react';
 import styled from 'styled-components';
-import moment, { now } from 'moment';
+import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
-import Countdown from './childs/countdown';
+import Countdown from './childs/Countdown';
 
 type Props = {
-	children?: ReactNode;
 	corporation: string;
 	position: string;
 	skills: string[];
@@ -16,7 +15,6 @@ type Props = {
 };
 
 const Card = ({
-	children,
 	corporation,
 	position,
 	skills,
@@ -66,7 +64,10 @@ const Card = ({
 				<span>
 					City: <b>{city}</b>
 				</span>
-				<Countdown revival={revival} />
+				<Countdown
+					timeTillDate={revival.toString()}
+					timeFormat='YYYY-MM-DD; hh:mm:ss Z'
+				/>
 			</CardFooter>
 		</CardContainer>
 	);
@@ -77,10 +78,13 @@ const CardContainer = styled.div`
 	width: 100%;
 	font-size: 0.8rem;
 	height: auto;
-	min-width: 20rem;
 	border-radius: 0.5rem;
 	overflow: hidden;
 	background-color: rgba(0, 0, 0, 0.7);
+
+	@media screen and (min-width: 1024px) {
+		width: 50%;
+	}
 `;
 const CardHeader = styled.div`
 	color: #007acc;
@@ -147,7 +151,4 @@ const CardFooter = styled.div`
 	color: white;
 	padding: 0.5rem;
 	justify-content: space-around;
-	b {
-		color: #000000;
-	}
 `;

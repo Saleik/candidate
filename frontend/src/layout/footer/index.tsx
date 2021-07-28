@@ -14,9 +14,7 @@ const Footer = () => {
 export default Footer;
 
 const Container = styled.footer`
-	height: 2.5rem;
-	position: absolute;
-	bottom: 0;
-	width: 100%;
-	text-align: center;
+	grid-area: footer;
+	justify-self: center;
+	align-self: end;
 `;
