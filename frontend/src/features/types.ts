@@ -36,6 +36,8 @@ export interface UserData {
 export type Applies = {
 	corporation: string;
 	position: string;
+	techno: string;
+	comment: string;
 	city: string;
 	firstApply: Date;
 	revival: Date;

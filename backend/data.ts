@@ -10,6 +10,8 @@ type Users = {
 type Applies = {
 	corporation: string;
 	position: string;
+	techno: string;
+	comment: string;
 	city: string;
 	firstApply: Date;
 	revival: Date;
@@ -41,6 +43,9 @@ const data: IData = {
 		{
 			corporation: 'Everping',
 			position: 'Junior Full-Stack Developer',
+			techno: 'HTML5,CSS3,NodeJS,VueJS,Git,MongoDB',
+			comment:
+				'Everping est une start-up ipsum dolor sit amet consectetur, adipisicing elit. Accusantium eaque iste eos aliquam, consequuntur',
 			city: 'Bordeaux',
 			firstApply: new Date('2021-06-10'),
 			revival: new Date('2021-06- 20'),
@@ -50,6 +55,9 @@ const data: IData = {
 		{
 			corporation: 'leProf',
 			position: 'Junior Front-end Developer',
+			techno: 'HTML5,CSS3,ReactJS,Bootstrap,Git',
+			comment:
+				'leProf est une société ipsum dolor sit amet consectetur, adipisicing elit. Accusantium eaque iste eos aliquam, consequuntur',
 			city: 'Bordeaux',
 			firstApply: new Date('2021-06-12'),
 			revival: new Date('2021-06- 22'),
@@ -59,6 +67,9 @@ const data: IData = {
 		{
 			corporation: 'Betomorrow',
 			position: 'Junior Front-end Developer',
+			techno: 'HTML5,CSS3,VueJS,MaterialUI,Git',
+			comment:
+				"Travailler chez Betomorrow c'est ipsum dolor sit amet consectetur, adipisicing elit. Accusantium eaque iste eos aliquam, consequuntur",
 			city: 'Bordeaux',
 			firstApply: new Date('2021-06-5'),
 			revival: new Date('2021-06- 15'),

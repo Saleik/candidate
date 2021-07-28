@@ -43,8 +43,8 @@ const Countdown = ({ timeTillDate, timeFormat }: Props) => {
 		return clearInterval();
 	}, []);
 	return (
-		<TimeBeforeRevival days={timeRemaining.days!}>
-			Times Before Revival:{' '}
+		<TimeBeforeRevival days={'timeRemaining.days'}>
+			Times Before Revival:
 			<b>
 				{timeRemaining.days} Days - {timeRemaining.hours}:
 				{timeRemaining.minutes}:{timeRemaining.seconds}
@@ -54,19 +54,23 @@ const Countdown = ({ timeTillDate, timeFormat }: Props) => {
 };
 
 type TimeBeforeRevivalProps = {
-	days: string;
+	days: string | undefined;
 };
 const TimeBeforeRevival = styled.span<TimeBeforeRevivalProps>`
 	color: #ffff;
 	padding: 0 1rem;
+	display: flex;
+	flex-wrap: wrap;
 
 	b {
 		color: ${({ days }) =>
-			parseInt(days) < 7 && parseInt(days) > 2
+			days && parseInt(days) < 7 && parseInt(days) > 2
 				? '#ffff'
-				: parseInt(days) <= 2
+				: days && parseInt(days) <= 2
 				? '#ff3300'
 				: '#1faa1f'};
+		padding-left: 0.2rem;
+		width: auto;
 	}
 `;
 export default Countdown;

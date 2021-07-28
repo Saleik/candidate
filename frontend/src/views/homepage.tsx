@@ -9,9 +9,7 @@ import { fetchAll, getAllSelector } from '../features/apply/getAllSlice';
 import { authSelector } from '../features/auth/authSlice';
 import useToggle from '../hooks/useToggle';
 
-//TODO: temporary skills array
-
-const skills = ['HTML5', 'CSS3', 'JS', 'ReactJS', 'Git', 'GitHub', 'Jest'];
+//FIXME: error conditional rendering applies
 
 const Homepage = () => {
 	const { currentUser } = useSelector(authSelector);
@@ -26,7 +24,8 @@ const Homepage = () => {
 
 	return (
 		<Container>
-			<h2>homepage</h2>
+			<h2>List Of Applies</h2>
+			<AddIcon>+</AddIcon>
 			{error.message ? (
 				<MessageBox setToggle={setShowError} type='error'>
 					{error.message}
@@ -44,7 +43,8 @@ const Homepage = () => {
 									position={apply.position}
 									firstApply={apply.firstApply}
 									revival={apply.revival}
-									skills={skills}
+									technologies={apply.techno}
+									comment={apply.comment}
 									city={apply.city}></Card>
 								<br />
 							</>
@@ -69,4 +69,29 @@ const CardWrapper = styled.div`
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
+`;
+
+const AddIcon = styled.div`
+	border: solid 0.1rem transparent;
+	margin-bottom: 1rem;
+	width: 20px;
+	height: 20px;
+	display: flex;
+	align-items: center;
+	text-align: center;
+	justify-content: center;
+	border-radius: 50%;
+	font-size: 1.5rem;
+	color: #000;
+	background-color: #ffa31a;
+	cursor: pointer;
+	transition: 0.5s;
+	@media screen and (min-width: 1024px) {
+		width: 50px;
+		height: 50px;
+		:hover {
+			background-color: black;
+			color: #ffa31a;
+		}
+	}
 `;

@@ -14,11 +14,22 @@ const seed = async (req: Request, res: Response, next: NextFunction) => {
 const register = async (req: Request, res: Response, next: NextFunction) => {
 	logging.info(NAMESPACE, 'Register apply to db');
 
-	const { corporation, position, city, firstApply, revival, userId } = req.body;
+	const {
+		corporation,
+		position,
+		techno,
+		comment,
+		city,
+		firstApply,
+		revival,
+		userId,
+	} = req.body;
 
 	const apply = new Apply({
 		corporation: corporation.toString(),
 		position: position.toString(),
+		techno: techno.replace(' ', '').toString(),
+		comment: comment.toString(),
 		city: city.toString(),
 		firstApply: new Date(firstApply),
 		revival: new Date(revival),

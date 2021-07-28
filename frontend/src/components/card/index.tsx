@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
@@ -7,26 +7,26 @@ import Countdown from './childs/Countdown';
 type Props = {
 	corporation: string;
 	position: string;
-	skills: string[];
+	technologies: string;
+	comment: string;
 	city: string;
 	firstApply: Date;
 	revival: Date;
-	updateAt?: Date;
 };
 
 const Card = ({
 	corporation,
 	position,
-	skills,
+	technologies,
+	comment,
 	city,
 	firstApply,
 	revival,
-	updateAt,
 }: Props) => {
 	const dateHandler = (date: Date) => {
 		return moment(date).format('DD/MM/YY');
 	};
-
+	const technologiesArray = technologies.split(',');
 	return (
 		<CardContainer>
 			<CardHeader>
@@ -34,7 +34,7 @@ const Card = ({
 					<h3>{corporation}</h3>
 				</div>
 				<CreatedAt>
-					<span>Created At: {dateHandler(firstApply)}</span>
+					<span> First Apply At: {dateHandler(firstApply)}</span>
 				</CreatedAt>
 				<DelIcon>&#10539;</DelIcon>
 			</CardHeader>
@@ -44,20 +44,15 @@ const Card = ({
 				</div>
 				<SkillsList>
 					<ul>
-						{skills.map((skill, key) => (
+						{technologiesArray.map((techno, key) => (
 							<li key={uuidv4()}>
-								{key !== skills.length - 1 ? skill + '/' : skill}
+								{key !== technologiesArray.length - 1 ? techno + '/' : techno}
 							</li>
 						))}
 					</ul>
 				</SkillsList>
 				<div>
-					<p>
-						Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-						Accusantium eaque iste eos aliquam, consequuntur sapiente,
-						architecto eius nobis ut id impedit dicta cum! Minus tempora veniam
-						doloremque officiis repellendus voluptas?
-					</p>
+					<p>{comment}</p>
 				</div>
 			</CardBody>
 			<CardFooter>
@@ -81,9 +76,16 @@ const CardContainer = styled.div`
 	border-radius: 0.5rem;
 	overflow: hidden;
 	background-color: rgba(0, 0, 0, 0.7);
-
+	cursor: pointer;
 	@media screen and (min-width: 1024px) {
 		width: 50%;
+		transform: scale(1);
+		transition: 0.5s;
+
+		:hover {
+			transform: scale(1.05);
+			box-shadow: 1px 1px 5px black;
+		}
 	}
 `;
 const CardHeader = styled.div`
