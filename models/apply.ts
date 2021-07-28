@@ -4,6 +4,8 @@ const applySchema = new mongoose.Schema(
 	{
 		corporation: { type: String, required: true },
 		position: { type: String, required: true },
+		techno: { type: String, required: true },
+		comment: { type: String, required: true },
 		city: { type: String, required: true },
 		firstApply: { type: Date, required: true },
 		revival: { type: Date, required: true },
