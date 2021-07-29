@@ -1,10 +1,13 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 //User
-import Login from '../../views/login';
-import Homepage from '../../views/homepage';
+import Login from '../../views/Login';
+import Register from '../../views/Register';
+
+//Private
 import PrivateRoute from '../../components/privateRoute';
-import Register from '../../views/register';
+import Homepage from '../../views/Homepage';
+import NewApply from '../../views/NewApply';
 import styled from 'styled-components';
 
 const Main = () => {
@@ -13,6 +16,7 @@ const Main = () => {
 			<Switch>
 				{/* Authenticate Only  */}
 				<PrivateRoute exact path='/' component={Homepage} />
+				<PrivateRoute path='/add/apply' component={NewApply} />
 
 				{/* User */}
 				<Route path='/signin' component={Login} />

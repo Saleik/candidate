@@ -55,5 +55,4 @@ export const fetchAll =
 			dispatch(setLoading(false));
 		}
 	};
-
 export default getAllSlice.reducer;

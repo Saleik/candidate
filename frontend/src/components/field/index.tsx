@@ -21,7 +21,7 @@ const Field = ({
 	return (
 		<>
 			{label ? (
-				<>
+				<div>
 					<label htmlFor={name}>{label}</label>
 					<Input
 						type={type}
@@ -30,16 +30,18 @@ const Field = ({
 						id={name}
 						required={required}
 					/>
-				</>
+				</div>
 			) : (
-				<Input
-					type={type}
-					onChange={(e) => onChange(e.target.value)}
-					name={name}
-					id={name}
-					placeholder={placeholder}
-					required={required}
-				/>
+				<div>
+					<Input
+						type={type}
+						onChange={(e) => onChange(e.target.value)}
+						name={name}
+						id={name}
+						placeholder={placeholder}
+						required={required}
+					/>
+				</div>
 			)}
 		</>
 	);

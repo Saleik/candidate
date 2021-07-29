@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { v4 as uuidv4 } from 'uuid';
 import Card from '../components/card';
@@ -25,7 +26,13 @@ const Homepage = () => {
 	return (
 		<Container>
 			<h2>List Of Applies</h2>
-			<AddIcon>+</AddIcon>
+			<IconWrapper>
+				<Link to={`/add/apply`}>
+					<AddIcon type='button'>
+						<PlusIcon>&#43;</PlusIcon>
+					</AddIcon>
+				</Link>
+			</IconWrapper>
 			{error.message ? (
 				<MessageBox setToggle={setShowError} type='error'>
 					{error.message}
@@ -71,21 +78,34 @@ const CardWrapper = styled.div`
 	flex-direction: column;
 `;
 
-const AddIcon = styled.div`
+const IconWrapper = styled.div`
+	width: 100%;
+	padding: 0.5rem;
+	display: flex;
+	justify-content: flex-end;
+`;
+
+const PlusIcon = styled.div``;
+
+const AddIcon = styled.button`
+	position: relative;
 	border: solid 0.1rem transparent;
-	margin-bottom: 1rem;
 	width: 20px;
 	height: 20px;
-	display: flex;
-	align-items: center;
-	text-align: center;
-	justify-content: center;
-	border-radius: 50%;
-	font-size: 1.5rem;
-	color: #000;
+	border-radius: 100%;
 	background-color: #ffa31a;
-	cursor: pointer;
 	transition: 0.5s;
+	cursor: pointer;
+
+	${PlusIcon} {
+		color: #000000;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		font-size: 1rem;
+		transform: translate(-50%, -50%);
+	}
+
 	@media screen and (min-width: 1024px) {
 		width: 50px;
 		height: 50px;

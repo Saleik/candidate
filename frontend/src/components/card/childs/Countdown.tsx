@@ -37,10 +37,10 @@ const Countdown = ({ timeTillDate, timeFormat }: Props) => {
 		});
 	};
 	useEffect(() => {
-		setInterval(() => {
+		const interval = setInterval(() => {
 			timesRemaining();
 		}, 1000);
-		return clearInterval();
+		return () => clearInterval(interval);
 	}, []);
 	return (
 		<TimeBeforeRevival days={'timeRemaining.days'}>
