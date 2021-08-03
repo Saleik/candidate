@@ -15,7 +15,7 @@ const Login = () => {
 	const [password, setPassword] = useState('');
 	const [message, setMessage] = useToggle(false);
 	const history = useHistory();
-	const { currentUser, isLoading, error, isAuth } = useSelector(authSelector);
+	const { isLoading, error, isAuth } = useSelector(authSelector);
 
 	const dispatch = useDispatch();
 
@@ -29,7 +29,7 @@ const Login = () => {
 		}
 
 		if (error.message) setMessage();
-	}, [isAuth, error]);
+	}, [isAuth, error.message]);
 	return (
 		<Container>
 			<h2>Sign In</h2>

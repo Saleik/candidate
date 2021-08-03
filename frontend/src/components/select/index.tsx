@@ -1,22 +1,52 @@
-import React from 'react';
+import React, { Dispatch } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import styled from 'styled-components';
 
-const Select = () => {
+export interface IObjectOptions {
+	[key: string]: string;
+}
+type Props = {
+	onChange: Dispatch<React.SetStateAction<string[]>>;
+	label: string;
+	options: IObjectOptions;
+	name: string;
+	multiple?: boolean;
+	selectedOption: string[] | undefined;
+};
+const Select = ({
+	onChange,
+	label,
+	options,
+	selectedOption,
+	name,
+	multiple,
+}: Props) => {
+	const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+		let technologies = Array.from(
+			e.target.selectedOptions,
+			(option: any) => option.value
+		);
+		onChange(technologies);
+	};
 	return (
 		<Wrapper>
-			<label htmlFor='technologies'>Choose the technologies:</label>
-			<select name='technologies' id='technologies' multiple>
-				<option value=''>--Please choose--</option>
-				<option value='HTML5'>HTML5</option>
-				<option value='CSS3'>CSS3</option>
-				<option value='JS'>Javascript</option>
-				<option value='ReactJS'>ReactJS</option>
-				<option value='VueJS'>VueJS</option>
-				<option value='MongoDB'>MongoDB</option>
-				<option value='SQL'>SQL</option>
-				<option value='MariaDB'>MariaDB</option>
-				<option value='Git'>Git</option>
-				<option value='SVN'>SVN</option>
+			<label htmlFor='technologies'>{label}</label>
+			<select
+				onChange={handleSelect}
+				name={name}
+				id={name}
+				multiple={multiple}
+				value={selectedOption}>
+				{options &&
+					Object.entries(options).map((value) => {
+						const optionValue = value[0];
+						const label = value[1];
+						return (
+							<option key={uuidv4()} value={optionValue}>
+								{label}
+							</option>
+						);
+					})}
 			</select>
 		</Wrapper>
 	);
@@ -24,6 +54,9 @@ const Select = () => {
 
 export default Select;
 
+Select.defaultProps = {
+	mutiple: false,
+};
 const Wrapper = styled.div`
 	display: flex;
 	flex-direction: column;

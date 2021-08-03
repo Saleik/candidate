@@ -1,5 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
+import styled from 'styled-components';
 //User
 import Login from '../../views/Login';
 import Register from '../../views/Register';
@@ -7,8 +8,9 @@ import Register from '../../views/Register';
 //Private
 import PrivateRoute from '../../components/privateRoute';
 import Homepage from '../../views/Homepage';
+
+//Apply
 import NewApply from '../../views/NewApply';
-import styled from 'styled-components';
 
 const Main = () => {
 	return (

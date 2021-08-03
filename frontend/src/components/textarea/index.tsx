@@ -1,17 +1,34 @@
-import React from 'react';
+import React, { Dispatch } from 'react';
 import styled from 'styled-components';
 
-const Textarea = () => {
+type Props = {
+	onChange: Dispatch<React.SetStateAction<string>>;
+	name: string;
+	label: string;
+	maxLength: number;
+	required?: boolean;
+};
+
+const Textarea = ({ onChange, name, label, maxLength }: Props) => {
 	return (
 		<Wrapper>
-			<label htmlFor='textarea'>Comment:</label>
-			<textarea name='textarea' maxLength={300} id='textarea' required />
+			<label htmlFor={name}>{label}:</label>
+			<textarea
+				onChange={(e) => onChange(e.target.value)}
+				name={name}
+				maxLength={maxLength}
+				id={name}
+				required
+			/>
 		</Wrapper>
 	);
 };
 
 export default Textarea;
 
+Textarea.defaultProps = {
+	required: false,
+};
 const Wrapper = styled.div`
 	padding: 1rem 0;
 	display: flex;
@@ -26,7 +43,7 @@ const Wrapper = styled.div`
 		border: 0;
 		border-radius: 0.5rem;
 		resize: none;
-		height: 5rem;
+		height: 10rem;
 		width: 100%;
 		font-size: 1rem;
 

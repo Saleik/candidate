@@ -15,14 +15,15 @@ import useToggle from '../hooks/useToggle';
 const Homepage = () => {
 	const { currentUser } = useSelector(authSelector);
 	const { applies, isLoading, error } = useSelector(getAllSelector);
-	const [showError, setShowError] = useToggle(false);
+	const [message, setMessage] = useToggle(false);
 	const dispatch = useDispatch();
 	useEffect(() => {
 		(async () => {
 			dispatch(fetchAll(currentUser?._id!));
 		})();
-	}, []);
 
+		if (error.message) setMessage();
+	}, [currentUser, error.message]);
 	return (
 		<Container>
 			<h2>List Of Applies</h2>
@@ -33,8 +34,8 @@ const Homepage = () => {
 					</AddIcon>
 				</Link>
 			</IconWrapper>
-			{error.message ? (
-				<MessageBox setToggle={setShowError} type='error'>
+			{error.message && message ? (
+				<MessageBox setToggle={setMessage} type='error'>
 					{error.message}
 				</MessageBox>
 			) : isLoading ? (

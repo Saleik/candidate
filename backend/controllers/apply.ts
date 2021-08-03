@@ -13,7 +13,7 @@ const seed = async (req: Request, res: Response, next: NextFunction) => {
 
 const register = async (req: Request, res: Response, next: NextFunction) => {
 	logging.info(NAMESPACE, 'Register apply to db');
-
+	//TODO:control maxLength comment
 	const {
 		corporation,
 		position,

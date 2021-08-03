@@ -1,4 +1,4 @@
-import React, { Dispatch, ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import styled, { keyframes } from 'styled-components';
 
 type Props = {
@@ -76,7 +76,7 @@ const Container = styled.div<ContainerProps>`
 	span {
 		font-size: 1rem;
 		:hover {
-			color: #ffa31a;
+			color: #fff;
 			cursor: pointer;
 		}
 	}

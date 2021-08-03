@@ -72,7 +72,7 @@ const Register = () => {
 			setErrorMessage(error.message);
 			setShowMessage();
 		}
-	}, [error, isRegister]);
+	}, [error.message, isRegister]);
 	return (
 		<Container>
 			<h2>Register Form</h2>

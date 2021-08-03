@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { Dispatch } from 'react';
 import styled from 'styled-components';
-
-const DatePicker = () => {
+type Props = {
+	onChange: Dispatch<React.SetStateAction<string>>;
+};
+const DatePicker = ({ onChange }: Props) => {
 	return (
 		<Wrapper>
 			<label htmlFor='dateRecall'>Date Of Recall</label>
-			<input type='date' name='dateRecall' />
+			<input
+				onChange={(e) => onChange(e.target.value)}
+				type='date'
+				name='dateRecall'
+			/>
 		</Wrapper>
 	);
 };

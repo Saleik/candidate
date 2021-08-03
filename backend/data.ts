@@ -60,7 +60,7 @@ const data: IData = {
 				'leProf est une société ipsum dolor sit amet consectetur, adipisicing elit. Accusantium eaque iste eos aliquam, consequuntur',
 			city: 'Bordeaux',
 			firstApply: new Date('2021-06-12'),
-			revival: new Date('2021-06- 22'),
+			revival: new Date('2021-06-22'),
 			lastRevival: new Date('2021-06-18'),
 			userId: '60ce22f892d50a5e62e1e67a',
 		},
