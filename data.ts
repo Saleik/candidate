@@ -9,6 +9,7 @@ type Users = {
 
 type Applies = {
 	corporation: string;
+	email: string;
 	position: string;
 	techno: string;
 	comment: string;
@@ -42,6 +43,7 @@ const data: IData = {
 	applies: [
 		{
 			corporation: 'Everping',
+			email: 'vincent@everping.com',
 			position: 'Junior Full-Stack Developer',
 			techno: 'HTML5,CSS3,NodeJS,VueJS,Git,MongoDB',
 			comment:
@@ -54,6 +56,7 @@ const data: IData = {
 		},
 		{
 			corporation: 'leProf',
+			email: 'leprof@contact.com',
 			position: 'Junior Front-end Developer',
 			techno: 'HTML5,CSS3,ReactJS,Bootstrap,Git',
 			comment:
@@ -66,6 +69,7 @@ const data: IData = {
 		},
 		{
 			corporation: 'Betomorrow',
+			email: 'rh@betomorrow.com',
 			position: 'Junior Front-end Developer',
 			techno: 'HTML5,CSS3,VueJS,MaterialUI,Git',
 			comment:
