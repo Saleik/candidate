@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
+import BackButton from '../components/backButton';
 import Button from '../components/button';
 import Field from '../components/field';
 import Loader from '../components/loader';
 import MessageBox from '../components/messageBox';
 import { registerSelector, signUp } from '../features/user/registerSlice';
-import useToggle from '../hooks/useToggle';
-export interface FormState {
+interface IFormData {
 	firstname: string;
 	lastname: string;
 	email: string;
@@ -16,25 +16,22 @@ export interface FormState {
 }
 
 const Register = () => {
-	const validEmail = new RegExp(
-		'^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$'
-	);
-
 	const [firstname, setFirstname] = useState('');
 	const [lastname, setLastname] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
 	const [errorMessage, setErrorMessage] = useState<boolean | string>(false);
-	const [showMessage, setShowMessage] = useToggle(false);
-
 	const { isRegister, isLoading, error } = useSelector(registerSelector);
 	const dispatch = useDispatch();
 	const history = useHistory();
 
 	//FIXME: on submit with incomplete input break CSS
-	const handleSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
+	const onSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
+		const validEmail = new RegExp(
+			'^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$'
+		);
 		if (
 			!!lastname &&
 			!!firstname &&
@@ -44,7 +41,7 @@ const Register = () => {
 		) {
 			if (validEmail.test(email)) {
 				if (password === confirmPassword) {
-					const formData: FormState = {
+					const formData: IFormData = {
 						firstname: firstname.toString().toLowerCase(),
 						lastname: lastname.toString().toLowerCase(),
 						email: email.toString().toLowerCase(),
@@ -54,15 +51,12 @@ const Register = () => {
 					dispatch(signUp(formData));
 				} else {
 					setErrorMessage('Password Not Identical');
-					setShowMessage();
 				}
 			} else {
 				setErrorMessage('E-mail Invalid');
-				setShowMessage();
 			}
 		} else {
-			setErrorMessage('Please fill in all fields.');
-			setShowMessage();
+			setErrorMessage('Please complete all fields.');
 		}
 	};
 
@@ -70,31 +64,24 @@ const Register = () => {
 		if (isRegister) history.push('/');
 		if (error.message) {
 			setErrorMessage(error.message);
-			setShowMessage();
 		}
 	}, [error.message, isRegister]);
 	return (
 		<Container>
-			<h2>Register Form</h2>
-			{showMessage && (
-				<MessageBox setToggle={setShowMessage} type='warning'>
-					{errorMessage}
-				</MessageBox>
-			)}
+			<BackButton />
+			<div>
+				<h2>Register Form</h2>
+			</div>
+			{errorMessage && <MessageBox type='warning'>{errorMessage}</MessageBox>}
 			{isLoading ? (
 				<Loader />
 			) : (
-				<form onSubmit={handleSubmit}>
+				<form onSubmit={onSubmit}>
 					<div>
 						<Field name='firstname' label='Firstname' onChange={setFirstname} />
 					</div>
 					<div>
-						<Field
-							name='lastname'
-							label='Lastname'
-							onChange={setLastname}
-							required
-						/>
+						<Field name='lastname' label='Lastname' onChange={setLastname} />
 					</div>
 					<div>
 						<Field

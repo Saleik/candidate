@@ -1,9 +1,11 @@
+import { IError } from './../types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from '../../store/store';
 import { RootState } from '../../store/rootReducer';
 import axios from 'axios';
-import { IError, AuthState, CurrentUser, UserData } from '../types';
+import { AuthState, CurrentUser } from './@types/types';
 import endpoints from '../endpoints';
+import { UserData } from '../user/@types/types';
 
 export const initialState: AuthState = {
 	isAuth: localStorage.getItem('currentUser') ? true : false,

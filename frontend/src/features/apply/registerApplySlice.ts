@@ -1,27 +1,28 @@
-import { UserData, RegisterData, RegisterState } from './@types/types';
+import { AppThunk } from './../../store/store';
+import { IError } from '../types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AppThunk } from '../../store/store';
 import { RootState } from '../../store/rootReducer';
 import axios from 'axios';
-import { setAuthSuccess } from '../auth/authSlice';
 import endpoints from '../endpoints';
-import { IError } from '../types';
+import { RegisterState, DataResponse, StoreData } from './@types/types';
 
 export const initialState: RegisterState = {
 	isRegister: false,
+	corporation: null,
 	isLoading: false,
 	error: { message: null },
 };
 
-export const registerSlice = createSlice({
+export const registerApplySlice = createSlice({
 	name: 'register',
 	initialState,
 	reducers: {
 		setLoading: (state, { payload }: PayloadAction<boolean>) => {
 			state.isLoading = payload;
 		},
-		setRegisterSuccess: (state, { payload }: PayloadAction<boolean>) => {
+		setRegisterSuccess: (state, { payload }: PayloadAction<string>) => {
 			state.isRegister = true;
+			state.corporation = payload;
 		},
 		setRegisterFailed: (state, { payload }: PayloadAction<IError>) => {
 			state.error = payload;
@@ -31,27 +32,39 @@ export const registerSlice = createSlice({
 });
 
 export const { setRegisterFailed, setRegisterSuccess, setLoading } =
-	registerSlice.actions;
+	registerApplySlice.actions;
 
-export const registerSelector = (state: RootState) => state.userRegister;
+export const registerSelector = (state: RootState) => state.applyRegister;
 
-export const signUp =
-	({ firstname, lastname, email, password }: RegisterData): AppThunk =>
+export const store =
+	({
+		dateOfRecall,
+		corporation,
+		email,
+		position,
+		city,
+		technologies,
+		comment,
+		userId,
+	}: StoreData): AppThunk =>
 	async (dispatch) => {
 		try {
 			dispatch(setLoading(true));
-			const { data }: UserData = await axios.post(
-				`${endpoints.REGISTER_USER_API}`,
+			const { data }: DataResponse = await axios.post(
+				`${endpoints.REGISTER_APPLY_API}`,
 				{
-					firstname,
-					lastname,
+					dateOfRecall,
+					corporation,
 					email,
-					password,
+					position,
+					city,
+					technologies,
+					comment,
+					userId,
 				}
 			);
-			dispatch(setRegisterSuccess(true));
-			dispatch(setAuthSuccess(data));
-			localStorage.setItem('currentUser', JSON.stringify(data));
+
+			dispatch(setRegisterSuccess(data.corporation));
 		} catch (error) {
 			const errorMessage: IError = {
 				message: error.response?.data.message || error.message,
@@ -61,5 +74,4 @@ export const signUp =
 			dispatch(setLoading(false));
 		}
 	};
-
-export default registerSlice.reducer;
+export default registerApplySlice.reducer;

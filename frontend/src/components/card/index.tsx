@@ -6,12 +6,13 @@ import Countdown from './childs/Countdown';
 
 type Props = {
 	corporation: string;
+	email?: string;
 	position: string;
 	technologies: string;
 	comment: string;
 	city: string;
-	firstApply: Date;
-	revival: Date;
+	createdAt: Date;
+	reminder: Date;
 };
 
 const Card = ({
@@ -20,13 +21,14 @@ const Card = ({
 	technologies,
 	comment,
 	city,
-	firstApply,
-	revival,
+	createdAt,
+	reminder,
 }: Props) => {
 	const dateHandler = (date: Date) => {
 		return moment(date).format('DD/MM/YY');
 	};
 	const technologiesArray = technologies.split(',');
+
 	return (
 		<CardContainer>
 			<CardHeader>
@@ -34,7 +36,7 @@ const Card = ({
 					<h3>{corporation}</h3>
 				</div>
 				<CreatedAt>
-					<span> First Apply At: {dateHandler(firstApply)}</span>
+					<span> Created At: {dateHandler(createdAt)}</span>
 				</CreatedAt>
 				<DelIcon>&#10539;</DelIcon>
 			</CardHeader>
@@ -60,7 +62,7 @@ const Card = ({
 					City: <b>{city}</b>
 				</span>
 				<Countdown
-					timeTillDate={revival.toString()}
+					timeTillDate={reminder.toString()}
 					timeFormat='YYYY-MM-DD; hh:mm:ss Z'
 				/>
 			</CardFooter>

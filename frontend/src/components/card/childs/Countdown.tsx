@@ -9,6 +9,7 @@ interface TimeRemaining {
 	seconds: undefined | string;
 }
 
+//FIXME: COUNTDOWN BUG IN MONTH
 type Props = {
 	timeTillDate: string;
 	timeFormat: string;
@@ -24,7 +25,7 @@ const Countdown = ({ timeTillDate, timeFormat }: Props) => {
 		const then: Moment = moment(timeTillDate, timeFormat);
 		const now: Moment = moment();
 		const countdown = moment(then.valueOf() - now.valueOf());
-		const days = countdown.format('D');
+		const days = countdown.format('DD');
 		const hours = countdown.format('HH');
 		const minutes = countdown.format('mm');
 		const seconds = countdown.format('ss');
@@ -43,20 +44,20 @@ const Countdown = ({ timeTillDate, timeFormat }: Props) => {
 		return () => clearInterval(interval);
 	}, []);
 	return (
-		<TimeBeforeRevival days={'timeRemaining.days'}>
-			Times Before Revival:
+		<TimeBeforeRecall days={'timeRemaining.days'}>
+			Times Before Recall:
 			<b>
 				{timeRemaining.days} Days - {timeRemaining.hours}:
 				{timeRemaining.minutes}:{timeRemaining.seconds}
 			</b>
-		</TimeBeforeRevival>
+		</TimeBeforeRecall>
 	);
 };
 
-type TimeBeforeRevivalProps = {
+type TimeBeforeRecallProps = {
 	days: string | undefined;
 };
-const TimeBeforeRevival = styled.span<TimeBeforeRevivalProps>`
+const TimeBeforeRecall = styled.span<TimeBeforeRecallProps>`
 	color: #ffff;
 	padding: 0 1rem;
 	display: flex;

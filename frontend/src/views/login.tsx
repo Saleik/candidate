@@ -8,38 +8,29 @@ import styled from 'styled-components';
 import { authSelector, login } from '../features/auth/authSlice';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import useToggle from '../hooks/useToggle';
 
 const Login = () => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
-	const [message, setMessage] = useToggle(false);
 	const history = useHistory();
 	const { isLoading, error, isAuth } = useSelector(authSelector);
-
 	const dispatch = useDispatch();
 
 	const submitHandler = (e: React.SyntheticEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		dispatch(login(email.toString().toLowerCase(), password.toString()));
 	};
+
 	useEffect(() => {
 		if (isAuth) {
 			history.push('/');
 		}
+	}, [isAuth]);
 
-		if (error.message) setMessage();
-	}, [isAuth, error.message]);
 	return (
 		<Container>
 			<h2>Sign In</h2>
-			{error.message && message ? (
-				<MessageBox setToggle={setMessage} type='error'>
-					{error.message}
-				</MessageBox>
-			) : (
-				''
-			)}
+			{error.message && <MessageBox type='error'>{error.message}</MessageBox>}
 			{isLoading ? (
 				<Loader />
 			) : (

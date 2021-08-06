@@ -8,21 +8,19 @@ import Loader from '../components/loader';
 import MessageBox from '../components/messageBox';
 import { fetchAll, getAllSelector } from '../features/apply/getAllSlice';
 import { authSelector } from '../features/auth/authSlice';
-import useToggle from '../hooks/useToggle';
 
 //FIXME: error conditional rendering applies
 
 const Homepage = () => {
 	const { currentUser } = useSelector(authSelector);
 	const { applies, isLoading, error } = useSelector(getAllSelector);
-	const [message, setMessage] = useToggle(false);
 	const dispatch = useDispatch();
+
+	console.log(applies);
 	useEffect(() => {
 		(async () => {
 			dispatch(fetchAll(currentUser?._id!));
 		})();
-
-		if (error.message) setMessage();
 	}, [currentUser, error.message]);
 	return (
 		<Container>
@@ -34,10 +32,8 @@ const Homepage = () => {
 					</AddIcon>
 				</Link>
 			</IconWrapper>
-			{error.message && message ? (
-				<MessageBox setToggle={setMessage} type='error'>
-					{error.message}
-				</MessageBox>
+			{error.message ? (
+				<MessageBox type='error'>{error.message}</MessageBox>
 			) : isLoading ? (
 				<Loader />
 			) : (
@@ -49,8 +45,8 @@ const Homepage = () => {
 									key={uuidv4()}
 									corporation={apply.corporation}
 									position={apply.position}
-									firstApply={apply.firstApply}
-									revival={apply.revival}
+									createdAt={apply.createdAt}
+									reminder={apply.reminder}
 									technologies={apply.techno}
 									comment={apply.comment}
 									city={apply.city}></Card>

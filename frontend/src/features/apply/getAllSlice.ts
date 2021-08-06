@@ -1,4 +1,5 @@
-import { Applies, AppliesData, GetApplies, IError } from './../types';
+import { Applies, AppliesData, GetApplies } from './@types/types';
+import { IError } from '../types';
 import endpoints from '../endpoints';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from '../../store/store';

@@ -13,26 +13,25 @@ const seed = async (req: Request, res: Response, next: NextFunction) => {
 
 const register = async (req: Request, res: Response, next: NextFunction) => {
 	logging.info(NAMESPACE, 'Register apply to db');
-	//TODO:control maxLength comment
 	const {
 		corporation,
+		email,
 		position,
 		techno,
 		comment,
 		city,
-		firstApply,
-		revival,
+		reminder,
 		userId,
 	} = req.body;
 
 	const apply = new Apply({
 		corporation: corporation.toString(),
+		email: email.toString(),
 		position: position.toString(),
 		techno: techno.replace(' ', '').toString(),
 		comment: comment.toString(),
 		city: city.toString(),
-		firstApply: new Date(firstApply),
-		revival: new Date(revival),
+		reminder: new Date(reminder),
 		userId: userId,
 	});
 

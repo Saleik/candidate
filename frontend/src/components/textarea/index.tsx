@@ -19,6 +19,7 @@ const Textarea = ({ onChange, name, label, maxLength }: Props) => {
 				maxLength={maxLength}
 				id={name}
 				required
+				placeholder={`${maxLength} character maximum...`}
 			/>
 		</Wrapper>
 	);

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { useHistory } from 'react-router-dom';
+import BackButton from '../components/backButton';
 import Button from '../components/button';
 import DatePicker from '../components/datePicker';
 import Field from '../components/field';
+import MessageBox from '../components/messageBox';
 import Select, { IObjectOptions } from '../components/select';
 import Textarea from '../components/textarea';
 
@@ -26,25 +28,78 @@ const techOptions: IObjectOptions = {
 	tailwindcss: 'TailwindCSS',
 };
 
+interface IFormData {
+	dateOfRecall: Date;
+	corporation: string;
+	email: string;
+	position: string;
+	city: string;
+	technologies: string;
+	comment: string;
+}
+
 const NewApply = () => {
 	const [dateOfRecall, setDateOfRecall] = useState('');
 	const [corporation, setCorporation] = useState('');
+	const [email, setEmail] = useState('');
 	const [position, setPosition] = useState('');
 	const [city, setCity] = useState('');
 	const [technologies, setTechnologies] = useState(['']);
 	const [comment, setComment] = useState('');
+	const [errorMessage, setErrorMessage] = useState<boolean | string>(false);
 
-	console.log(comment.length);
-	const history = useHistory();
+	const dispatch = useDispatch();
+
+	const onSubmit = (e: React.FormEvent) => {
+		e.preventDefault();
+
+		const validEmail = new RegExp(
+			'^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$'
+		);
+		const recall = dateOfRecall ? new Date(dateOfRecall) : '';
+		if (
+			!!recall &&
+			!!corporation &&
+			!!email &&
+			!!position &&
+			!!city &&
+			!!technologies &&
+			!!comment
+		) {
+			if (validEmail.test(email)) {
+				if (recall.getTime() === recall.getTime()) {
+					if (comment.length <= 200) {
+						const formData: IFormData = {
+							dateOfRecall: recall,
+							corporation: corporation.toString().toLowerCase(),
+							email: email.toString().toLowerCase(),
+							position: position.toString().toLowerCase(),
+							city: city.toString().toLowerCase(),
+							technologies: technologies.join(','),
+							comment: comment.toString().toLowerCase(),
+						};
+
+						console.log(formData.technologies);
+					} else {
+						setErrorMessage('Exceed maximum character at comment field.');
+					}
+				} else {
+					setErrorMessage('Invalid date of recall.');
+				}
+			} else {
+				setErrorMessage('E-mail Invalid');
+			}
+		} else {
+			setErrorMessage('Please complete all fields.');
+		}
+	};
+
 	return (
 		<Container>
-			<BackIconWrapper>
-				<BackIcon type='button' onClick={() => history.goBack()}>
-					&#8592;
-				</BackIcon>
-			</BackIconWrapper>
+			<BackButton />
 			<h2>Add New Apply</h2>
-			<form>
+			{errorMessage && <MessageBox type='warning'>{errorMessage}</MessageBox>}
+			<form onSubmit={onSubmit}>
 				<DatePicker onChange={setDateOfRecall} />
 				<Field
 					label='Corporation'
@@ -52,6 +107,13 @@ const NewApply = () => {
 					name='corporation'
 					onChange={setCorporation}
 					required
+				/>
+				<Field
+					label='E-mail'
+					type='text'
+					name='email'
+					onChange={setEmail}
+					/* required */
 				/>
 				<Field
 					label='Position'
@@ -80,7 +142,7 @@ const NewApply = () => {
 					label='Comment'
 					required
 					onChange={setComment}
-					maxLength={300}
+					maxLength={200}
 				/>
 				<ButtonWrapper>
 					<Button type='submit'>Store</Button>
@@ -101,30 +163,4 @@ const Container = styled.div`
 const ButtonWrapper = styled.div`
 	width: 100%;
 	text-align: center;
-`;
-
-const BackIconWrapper = styled.div`
-	width: 100%;
-	height: auto;
-`;
-const BackIcon = styled.button`
-	height: 30px;
-	width: 30px;
-	border-radius: 50%;
-	border: 0;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	padding: 1rem;
-	background-color: #ffa31a;
-	color: #000;
-	cursor: pointer;
-	transition: all 0.5s;
-	@media screen and (min-width: 1024px) {
-		:hover {
-			background-color: #000;
-			color: #ffa31a;
-			transform: scale(1.1);
-		}
-	}
 `;
