@@ -7,12 +7,12 @@ const NAMESPACE = 'Apply';
 
 const seed = async (req: Request, res: Response, next: NextFunction) => {
 	logging.info(NAMESPACE, 'Apply seed to db.');
-	const createdApply = await Apply.insertMany(data.applies);
-	return res.status(200).send({ createdApply });
+	const createdApplies = await Apply.insertMany(data.applies);
+	return res.status(200).send({ createdApplies });
 };
 
 const register = async (req: Request, res: Response, next: NextFunction) => {
-	logging.info(NAMESPACE, 'Register apply to db');
+	logging.info(NAMESPACE, 'Store apply to db');
 	const {
 		corporation,
 		email,
@@ -23,24 +23,28 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 		reminder,
 		userId,
 	} = req.body;
-
 	const apply = new Apply({
-		corporation: corporation.toString(),
-		email: email.toString(),
-		position: position.toString(),
-		techno: techno.replace(' ', '').toString(),
-		comment: comment.toString(),
-		city: city.toString(),
-		reminder: new Date(reminder),
+		corporation: corporation,
+		email: email,
+		position: position,
+		techno: techno,
+		comment: comment,
+		city: city,
+		reminder: reminder,
 		userId: userId,
 	});
 
-	const createdApply = await apply.save();
+	const createdApply = await apply
+		.save()
+		.catch((err: { message: string }) => console.log('Caught:', err.message));
 
-	res.status(201).send({
-		corporation: createdApply.corporation,
-		position: createdApply.position,
-		success: true,
+	if (createdApply) {
+		return res.status(201).json({
+			message: 'succeed',
+		});
+	}
+	return res.status(500).json({
+		message: 'Error while adding, please try again',
 	});
 };
 
@@ -54,10 +58,9 @@ const getAll = async (req: Request, res: Response, next: NextFunction) => {
 	);
 
 	if (applies) {
-		res.status(200).send(applies);
-		return;
+		return res.status(200).json(applies);
 	}
-	res.status(404).send({
+	return res.status(404).json({
 		message: 'Not Found',
 	});
 };

@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
-import logging from 'config/logging';
-import config from 'config/config';
+import logging from '../config/logging';
+import config from '../config/config';
 const NAMESPACE = 'Auth';
 
 const extractJWT = (req: Request, res: Response, next: NextFunction) => {

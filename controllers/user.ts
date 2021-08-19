@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 import logging from '../config/logging';
 import User from '../models/user';
-import generateJWT from '../middlewares/generateJWT';
 import data from '../data';
 import { hashSync, compareSync } from 'bcrypt';
+import signJWT from '../functions/signJWT';
 
 const NAMESPACE = 'User';
 
@@ -31,20 +31,28 @@ const signin = async (req: Request, res: Response, next: NextFunction) => {
 
 	if (user) {
 		if (compareSync(req.body.password, user.password)) {
-			res.status(200).send({
-				_id: user._id,
-				firstname: user.firstname,
-				lastname: user.lastname,
-				email: user.email,
-				token: generateJWT(user),
+			signJWT(user, (_error, token) => {
+				if (_error) {
+					return res.status(500).json({
+						message: _error.message,
+						error: _error,
+					});
+				} else if (token) {
+					return res.status(200).json({
+						_id: user._id,
+						firstname: user.firstname,
+						lastname: user.lastname,
+						email: user.email,
+						token: token,
+					});
+				}
 			});
-
-			return;
+		} else {
+			return res.status(401).json({
+				message: 'Invalid password or email.',
+			});
 		}
 	}
-	res.status(401).send({
-		message: 'invalid email or password',
-	});
 };
 
 const register = async (req: Request, res: Response, next: NextFunction) => {
@@ -61,12 +69,21 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 
 	const createdUser = await user.save();
 
-	res.status(201).send({
-		_id: createdUser._id,
-		firstname: createdUser.firstname,
-		lastname: createdUser.lastname,
-		email: createdUser.email,
-		token: generateJWT(createdUser),
+	signJWT(user, (_error, token) => {
+		if (_error) {
+			return res.status(500).json({
+				message: _error.message,
+				error: _error,
+			});
+		} else if (token) {
+			return res.status(200).json({
+				_id: createdUser._id,
+				firstname: createdUser.firstname,
+				lastname: createdUser.lastname,
+				email: createdUser.email,
+				token: token,
+			});
+		}
 	});
 };
 
