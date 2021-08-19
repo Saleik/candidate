@@ -1,40 +1,42 @@
-import { AppThunk } from './../../store/store';
+import { AppThunk } from '../../store/store';
 import { IError } from '../types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../../store/rootReducer';
 import axios from 'axios';
 import endpoints from '../endpoints';
-import { RegisterState, DataResponse, StoreData } from './@types/types';
+import { storeState, StoreData } from './@types/types';
 
-export const initialState: RegisterState = {
-	isRegister: false,
-	corporation: null,
+export const initialState: storeState = {
+	isStore: false,
 	isLoading: false,
 	error: { message: null },
 };
 
-export const registerApplySlice = createSlice({
+export const storeApplySlice = createSlice({
 	name: 'register',
 	initialState,
 	reducers: {
 		setLoading: (state, { payload }: PayloadAction<boolean>) => {
 			state.isLoading = payload;
 		},
-		setRegisterSuccess: (state, { payload }: PayloadAction<string>) => {
-			state.isRegister = true;
-			state.corporation = payload;
+		setStoreSuccess: (state) => {
+			state.isStore = true;
 		},
-		setRegisterFailed: (state, { payload }: PayloadAction<IError>) => {
+		setStoreFailed: (state, { payload }: PayloadAction<IError>) => {
 			state.error = payload;
-			state.isRegister = false;
+			state.isStore = false;
+		},
+		setStoreReset: (state) => {
+			state.isStore = false;
+			state.error.message = null;
 		},
 	},
 });
 
-export const { setRegisterFailed, setRegisterSuccess, setLoading } =
-	registerApplySlice.actions;
+export const { setStoreReset, setStoreFailed, setStoreSuccess, setLoading } =
+	storeApplySlice.actions;
 
-export const registerSelector = (state: RootState) => state.applyRegister;
+export const storeSelector = (state: RootState) => state.applyStore;
 
 export const store =
 	({
@@ -46,32 +48,38 @@ export const store =
 		technologies,
 		comment,
 		userId,
+		token,
 	}: StoreData): AppThunk =>
 	async (dispatch) => {
 		try {
 			dispatch(setLoading(true));
-			const { data }: DataResponse = await axios.post(
+			await axios.post(
 				`${endpoints.REGISTER_APPLY_API}`,
 				{
-					dateOfRecall,
+					reminder: dateOfRecall,
 					corporation,
 					email,
 					position,
 					city,
-					technologies,
+					techno: technologies,
 					comment,
 					userId,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
 				}
 			);
 
-			dispatch(setRegisterSuccess(data.corporation));
+			dispatch(setStoreSuccess());
 		} catch (error) {
 			const errorMessage: IError = {
 				message: error.response?.data.message || error.message,
 			};
-			dispatch(setRegisterFailed(errorMessage));
+			dispatch(setStoreFailed(errorMessage));
 		} finally {
 			dispatch(setLoading(false));
 		}
 	};
-export default registerApplySlice.reducer;
+export default storeApplySlice.reducer;

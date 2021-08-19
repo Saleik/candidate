@@ -33,5 +33,10 @@ const Container = styled.main`
 	padding: 0 1rem;
 	justify-self: center;
 	align-self: center;
+	width: 100%;
+
+	@media screen and (min-width: 1024px) {
+		width: 50vw;
+	}
 `;
 export default Main;

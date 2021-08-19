@@ -6,7 +6,7 @@ import Countdown from './childs/Countdown';
 
 type Props = {
 	corporation: string;
-	email?: string;
+	email: string;
 	position: string;
 	technologies: string;
 	comment: string;
@@ -18,6 +18,7 @@ type Props = {
 const Card = ({
 	corporation,
 	position,
+	email,
 	technologies,
 	comment,
 	city,
@@ -48,11 +49,21 @@ const Card = ({
 					<ul>
 						{technologiesArray.map((techno, key) => (
 							<li key={uuidv4()}>
-								{key !== technologiesArray.length - 1 ? techno + '/' : techno}
+								{key !== technologiesArray.length - 1
+									? techno.toUpperCase() + '/'
+									: techno.toUpperCase()}
 							</li>
 						))}
 					</ul>
 				</SkillsList>
+				<Email>
+					<span>
+						E-mail:{' '}
+						<b>
+							<a href={`mailto:${email}`}>{email}</a>
+						</b>
+					</span>
+				</Email>
 				<div>
 					<p>{comment}</p>
 				</div>
@@ -78,9 +89,9 @@ const CardContainer = styled.div`
 	border-radius: 0.5rem;
 	overflow: hidden;
 	background-color: rgba(0, 0, 0, 0.7);
-	cursor: pointer;
+	margin-bottom: 1rem;
+
 	@media screen and (min-width: 1024px) {
-		width: 50%;
 		transform: scale(1);
 		transition: 0.5s;
 
@@ -126,14 +137,13 @@ const DelIcon = styled.span`
 const CardBody = styled.div`
 	display: flex;
 	flex-direction: column;
+	padding: 0 0.5rem;
 	h4 {
-		padding: 0.25rem;
 		color: #ffa31a;
 		text-align: center;
 	}
 	p {
 		text-align: justify;
-		padding: 0 1rem;
 		color: #ffff;
 	}
 `;
@@ -143,7 +153,7 @@ const SkillsList = styled.div`
 		margin: 0;
 		padding-left: 1rem;
 		li {
-			display: inline;
+			display: inline-flex;
 		}
 	}
 `;
@@ -155,4 +165,14 @@ const CardFooter = styled.div`
 	color: white;
 	padding: 0.5rem;
 	justify-content: space-around;
+`;
+
+const Email = styled.div`
+	color: #fff;
+	padding-top: 0.5rem;
+
+	a {
+		color: #fff;
+		cursor: pointer;
+	}
 `;

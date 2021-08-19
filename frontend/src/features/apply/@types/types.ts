@@ -22,26 +22,12 @@ export interface AppliesData {
 }
 
 //Add new apply
-export interface RegisterState {
-	isRegister: boolean;
-	corporation: string | null;
+export interface storeState {
+	isStore: boolean;
 	isLoading: boolean;
 	error: IError;
 }
 
-export interface DataResponse {
-	data: {
-		corporation: string;
-	};
-}
-
 export interface StoreData {
-	dateOfRecall: Date;
-	corporation: string;
-	email: string;
-	position: string;
-	city: string;
-	technologies: string;
-	comment: string;
-	userId: string;
+	[key: string]: string | string[];
 }

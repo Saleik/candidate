@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import BackButton from '../components/backButton';
 import Button from '../components/button';
-import DatePicker from '../components/datePicker';
-import Field from '../components/field';
+import Loader from '../components/loader';
 import MessageBox from '../components/messageBox';
-import Select, { IObjectOptions } from '../components/select';
-import Textarea from '../components/textarea';
+import { v4 as uuidv4 } from 'uuid';
+import {
+	setStoreReset,
+	storeSelector,
+} from '../features/apply/storeApplySlice';
+import { authSelector } from '../features/auth/authSlice';
+import useForm from '../hooks/useForm';
+
+//FIXME:Typescript bug to errors object
 
 const techOptions: IObjectOptions = {
 	html5: 'HTML5',
@@ -27,127 +34,149 @@ const techOptions: IObjectOptions = {
 	materialui: 'MaterialUI',
 	tailwindcss: 'TailwindCSS',
 };
-
-interface IFormData {
-	dateOfRecall: Date;
-	corporation: string;
-	email: string;
-	position: string;
-	city: string;
-	technologies: string;
-	comment: string;
+export interface IObjectOptions {
+	[key: string]: string;
 }
-
 const NewApply = () => {
-	const [dateOfRecall, setDateOfRecall] = useState('');
-	const [corporation, setCorporation] = useState('');
-	const [email, setEmail] = useState('');
-	const [position, setPosition] = useState('');
-	const [city, setCity] = useState('');
-	const [technologies, setTechnologies] = useState(['']);
-	const [comment, setComment] = useState('');
-	const [errorMessage, setErrorMessage] = useState<boolean | string>(false);
+	//test useForm
+	const { currentUser } = useSelector(authSelector);
+
+	const { values, handleChange, handleSelect, handleSubmit, errors } = useForm(
+		{
+			corporation: '',
+			email: '',
+			position: '',
+			city: '',
+			technologies: [],
+			comment: '',
+			date: '',
+		},
+		'store',
+		currentUser?._id,
+		currentUser?.token
+	);
+	const history = useHistory();
+
+	const {
+		isStore,
+		error: errorToStore,
+		isLoading,
+	} = useSelector(storeSelector);
 
 	const dispatch = useDispatch();
 
-	const onSubmit = (e: React.FormEvent) => {
-		e.preventDefault();
-
-		const validEmail = new RegExp(
-			'^[a-zA-Z0-9._:$!%-]+@[a-zA-Z0-9.-]+.[a-zA-Z]$'
-		);
-		const recall = dateOfRecall ? new Date(dateOfRecall) : '';
-		if (
-			!!recall &&
-			!!corporation &&
-			!!email &&
-			!!position &&
-			!!city &&
-			!!technologies &&
-			!!comment
-		) {
-			if (validEmail.test(email)) {
-				if (recall.getTime() === recall.getTime()) {
-					if (comment.length <= 200) {
-						const formData: IFormData = {
-							dateOfRecall: recall,
-							corporation: corporation.toString().toLowerCase(),
-							email: email.toString().toLowerCase(),
-							position: position.toString().toLowerCase(),
-							city: city.toString().toLowerCase(),
-							technologies: technologies.join(','),
-							comment: comment.toString().toLowerCase(),
-						};
-
-						console.log(formData.technologies);
-					} else {
-						setErrorMessage('Exceed maximum character at comment field.');
-					}
-				} else {
-					setErrorMessage('Invalid date of recall.');
-				}
-			} else {
-				setErrorMessage('E-mail Invalid');
-			}
-		} else {
-			setErrorMessage('Please complete all fields.');
+	useEffect(() => {
+		if (isStore) {
+			history.goBack();
 		}
-	};
+
+		return () => {
+			dispatch(setStoreReset());
+		};
+	}, [isStore, dispatch, history]);
 
 	return (
 		<Container>
 			<BackButton />
 			<h2>Add New Apply</h2>
-			{errorMessage && <MessageBox type='warning'>{errorMessage}</MessageBox>}
-			<form onSubmit={onSubmit}>
-				<DatePicker onChange={setDateOfRecall} />
-				<Field
-					label='Corporation'
-					type='text'
-					name='corporation'
-					onChange={setCorporation}
-					required
-				/>
-				<Field
-					label='E-mail'
-					type='text'
-					name='email'
-					onChange={setEmail}
-					/* required */
-				/>
-				<Field
-					label='Position'
-					type='text'
-					name='position'
-					onChange={setPosition}
-					required
-				/>
-				<Field
-					label='City'
-					type='text'
-					name='city'
-					onChange={setCity}
-					required
-				/>
-				<Select
-					multiple
-					name={'technologies'}
-					label={'Choose The Technologies'}
-					onChange={setTechnologies}
-					options={techOptions}
-					selectedOption={technologies}
-				/>
-				<Textarea
-					name='comment'
-					label='Comment'
-					required
-					onChange={setComment}
-					maxLength={200}
-				/>
-				<ButtonWrapper>
-					<Button type='submit'>Store</Button>
-				</ButtonWrapper>
-			</form>
+			{errorToStore.message && (
+				<MessageBox type='error'>{errorToStore.message}</MessageBox>
+			)}
+			{isLoading ? (
+				<Loader />
+			) : (
+				<form onSubmit={handleSubmit}>
+					<DatePicker>
+						<label htmlFor='date'>Date Of Recall</label>
+						<input onChange={handleChange} type='date' name='date' />
+						{'date' in errors && <FieldInfo>{errors.date}</FieldInfo>}
+					</DatePicker>
+					<FormGroup>
+						<label htmlFor='corporation'>Corporation</label>
+						<Input
+							type='text'
+							name='corporation'
+							onChange={handleChange}
+							value={values.corporation}
+						/>
+						{'corporation' in errors && (
+							<FieldInfo>{errors.corporation}</FieldInfo>
+						)}
+					</FormGroup>
+					<FormGroup>
+						<label htmlFor='email'>E-mail</label>
+						<Input
+							type='text'
+							name='email'
+							onChange={handleChange}
+							required
+							value={values.email}
+						/>
+						{'email' in errors && <FieldInfo>{errors?.email}</FieldInfo>}
+					</FormGroup>
+					<FormGroup>
+						<label htmlFor='Position'>Position</label>
+						<Input
+							type='text'
+							name='position'
+							onChange={handleChange}
+							value={values.position}
+							required
+						/>
+						{'position' in errors && <FieldInfo>{errors.position}</FieldInfo>}
+					</FormGroup>
+
+					<FormGroup>
+						<label htmlFor='city'>City</label>
+						<Input
+							type='text'
+							name='city'
+							onChange={handleChange}
+							required
+							value={values.city}
+						/>
+						{'city' in errors && <FieldInfo>{errors.city}</FieldInfo>}
+					</FormGroup>
+					<SelectTechno>
+						<label htmlFor='technologies'>Technologies</label>
+						<select
+							onChange={handleSelect}
+							name='technologies'
+							id='technologies'
+							multiple
+							value={values.technologies}>
+							{Object.entries(techOptions).map((value) => {
+								const optionValue = value[0];
+								const label = value[1];
+								return (
+									<option key={uuidv4()} value={optionValue}>
+										{label}
+									</option>
+								);
+							})}
+						</select>
+						{'technologies' in errors && (
+							<FieldInfo>{errors?.technologies}</FieldInfo>
+						)}
+					</SelectTechno>
+					<Comment>
+						<label htmlFor='comment'>Comment</label>
+						<textarea
+							onChange={handleChange}
+							name='comment'
+							maxLength={200}
+							id='comment'
+							required
+							placeholder={`200 characters maximum...`}
+							value={values.comment}
+						/>
+						{'comment' in errors && <FieldInfo>{errors.comment}</FieldInfo>}
+					</Comment>
+					<ButtonWrapper>
+						<Button type='submit'>Store</Button>
+					</ButtonWrapper>
+				</form>
+			)}
 		</Container>
 	);
 };
@@ -157,6 +186,80 @@ export default NewApply;
 const Container = styled.div`
 	h2 {
 		text-align: center;
+	}
+`;
+const DatePicker = styled.div`
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	padding-bottom: 1rem;
+
+	label {
+		padding-bottom: 0.5rem;
+	}
+	input {
+		border: 0;
+		background-color: #ffff;
+		border-radius: 0.5rem;
+
+		:focus {
+			outline: none;
+		}
+	}
+`;
+const FormGroup = styled.div`
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	padding-bottom: 1rem;
+`;
+
+const FieldInfo = styled.span`
+	color: #ff0000;
+`;
+const Input = styled.input`
+	border: 0;
+	border-bottom: 0.1rem solid #000;
+	background-color: unset;
+	outline: none;
+	color: #000;
+	width: 100%;
+
+	::placeholder {
+		color: #000;
+	}
+`;
+
+const SelectTechno = styled.div`
+	display: flex;
+	flex-direction: column;
+	padding-bottom: 1rem;
+	select {
+		border: 0;
+		border-radius: 0.5rem;
+	}
+`;
+const Comment = styled.div`
+	padding: 1rem 0;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+
+	label {
+		padding-bottom: 0.5rem;
+	}
+
+	textarea {
+		border: 0;
+		border-radius: 0.5rem;
+		resize: none;
+		height: 10rem;
+		width: 100%;
+		font-size: 1rem;
+
+		:focus {
+			outline: none;
+		}
 	}
 `;
 

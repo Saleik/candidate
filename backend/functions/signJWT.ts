@@ -40,3 +40,5 @@ const signJWT = (
 		callback(error, null);
 	}
 };
+
+export default signJWT;

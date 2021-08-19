@@ -26,7 +26,6 @@ const Register = () => {
 	const dispatch = useDispatch();
 	const history = useHistory();
 
-	//FIXME: on submit with incomplete input break CSS
 	const onSubmit = (e: React.FormEvent) => {
 		e.preventDefault();
 		const validEmail = new RegExp(

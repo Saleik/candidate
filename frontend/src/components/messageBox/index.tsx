@@ -76,5 +76,6 @@ const Container = styled.div<ContainerProps>`
 		align-self: center;
 		justify-self: end;
 		font-size: 1rem;
+		padding-left: 0.2rem;
 	}
 `;

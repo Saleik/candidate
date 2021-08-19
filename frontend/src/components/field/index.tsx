@@ -1,13 +1,15 @@
-import React, { Dispatch } from 'react';
+import React, { ChangeEvent, Dispatch } from 'react';
 import styled from 'styled-components';
 
 type FieldProps = {
 	type: string;
 	name: string;
-	onChange: Dispatch<React.SetStateAction<string>>;
+	/* onChange: Dispatch<React.SetStateAction<string>>; */
+	onChange: ChangeEvent<HTMLInputElement>;
 	label?: string;
 	placeholder?: string;
 	required: boolean;
+	value?: string;
 };
 
 const Field = ({
@@ -17,6 +19,7 @@ const Field = ({
 	label,
 	placeholder,
 	required,
+	value,
 }: FieldProps) => {
 	return (
 		<>
@@ -25,10 +28,11 @@ const Field = ({
 					<label htmlFor={name}>{label}</label>
 					<Input
 						type={type}
-						onChange={(e) => onChange(e.target.value)}
+						onChange={(e) => onChange(e)}
 						name={name}
 						id={name}
 						required={required}
+						value={value}
 					/>
 				</div>
 			) : (
@@ -40,6 +44,7 @@ const Field = ({
 						id={name}
 						placeholder={placeholder}
 						required={required}
+						value={value}
 					/>
 				</div>
 			)}

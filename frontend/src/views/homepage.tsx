@@ -9,14 +9,12 @@ import MessageBox from '../components/messageBox';
 import { fetchAll, getAllSelector } from '../features/apply/getAllSlice';
 import { authSelector } from '../features/auth/authSlice';
 
-//FIXME: error conditional rendering applies
-
+//FIXME: hover adding button
 const Homepage = () => {
 	const { currentUser } = useSelector(authSelector);
 	const { applies, isLoading, error } = useSelector(getAllSelector);
 	const dispatch = useDispatch();
 
-	console.log(applies);
 	useEffect(() => {
 		(async () => {
 			dispatch(fetchAll(currentUser?._id!));
@@ -40,18 +38,17 @@ const Homepage = () => {
 				applies && (
 					<CardWrapper>
 						{applies.map((apply) => (
-							<>
-								<Card
-									key={uuidv4()}
-									corporation={apply.corporation}
-									position={apply.position}
-									createdAt={apply.createdAt}
-									reminder={apply.reminder}
-									technologies={apply.techno}
-									comment={apply.comment}
-									city={apply.city}></Card>
-								<br />
-							</>
+							<Card
+								key={uuidv4()}
+								corporation={apply.corporation}
+								position={apply.position}
+								createdAt={apply.createdAt}
+								reminder={apply.reminder}
+								technologies={apply.techno}
+								comment={apply.comment}
+								city={apply.city}
+								email={apply.email}
+							/>
 						))}
 					</CardWrapper>
 				)
@@ -91,6 +88,7 @@ const AddIcon = styled.button`
 	height: 20px;
 	border-radius: 100%;
 	background-color: #ffa31a;
+	color: #000;
 	transition: 0.5s;
 	cursor: pointer;
 
