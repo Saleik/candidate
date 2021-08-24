@@ -27,7 +27,7 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 		corporation: corporation,
 		email: email,
 		position: position,
-		techno: techno,
+		techno: techno.join(','),
 		comment: comment,
 		city: city,
 		reminder: reminder,

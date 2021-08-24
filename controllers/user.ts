@@ -27,7 +27,7 @@ const signin = async (req: Request, res: Response, next: NextFunction) => {
 
 	const user = await User.findOne({
 		email: req.body.email,
-	});
+	}).catch((err: { message: string }) => console.log('Caught:', err.message));
 
 	if (user) {
 		if (compareSync(req.body.password, user.password)) {
@@ -47,12 +47,11 @@ const signin = async (req: Request, res: Response, next: NextFunction) => {
 					});
 				}
 			});
-		} else {
-			return res.status(401).json({
-				message: 'Invalid password or email.',
-			});
 		}
 	}
+	return res.status(401).json({
+		message: 'Invalid password or email.',
+	});
 };
 
 const register = async (req: Request, res: Response, next: NextFunction) => {
