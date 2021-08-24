@@ -1,4 +1,4 @@
-import { UserData, RegisterData, RegisterState } from './@types/types';
+import { UserData, RegisterState } from './@types/types';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from '../../store/store';
 import { RootState } from '../../store/rootReducer';
@@ -6,6 +6,7 @@ import axios from 'axios';
 import { setAuthSuccess } from '../auth/authSlice';
 import endpoints from '../endpoints';
 import { IError } from '../types';
+import { IValues } from '../../hooks/useForm';
 
 export const initialState: RegisterState = {
 	isRegister: false,
@@ -36,7 +37,7 @@ export const { setRegisterFailed, setRegisterSuccess, setLoading } =
 export const registerSelector = (state: RootState) => state.userRegister;
 
 export const signUp =
-	({ firstname, lastname, email, password }: RegisterData): AppThunk =>
+	({ firstname, lastname, email, password }: IValues): AppThunk =>
 	async (dispatch) => {
 		try {
 			dispatch(setLoading(true));

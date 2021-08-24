@@ -66,7 +66,9 @@ const Container = styled.div<ContainerProps>`
 	text-align: center;
 	color: #000;
 	width: 100%;
+	margin: 0 auto;
 	padding: 0.5rem;
+	margin-bottom: 0.5rem;
 	-webkit-animation: ${scaleInVerBottom} 0.5s
 		cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 	animation: ${scaleInVerBottom} 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;

@@ -100,7 +100,7 @@ const NewApply = () => {
 							required
 						/>
 						{'corporation' in errors && (
-							<FieldInfo>{errors.corporation}</FieldInfo>
+							<FieldInfo>{errors?.corporation}</FieldInfo>
 						)}
 					</FormGroup>
 					<FormGroup>
@@ -115,7 +115,7 @@ const NewApply = () => {
 						{'email' in errors && <FieldInfo>{errors?.email}</FieldInfo>}
 					</FormGroup>
 					<FormGroup>
-						<label htmlFor='Position'>Position</label>
+						<label htmlFor='position'>Position</label>
 						<Input
 							type='text'
 							name='position'
@@ -123,7 +123,7 @@ const NewApply = () => {
 							value={values.position}
 							required
 						/>
-						{'position' in errors && <FieldInfo>{errors.position}</FieldInfo>}
+						{'position' in errors && <FieldInfo>{errors?.position}</FieldInfo>}
 					</FormGroup>
 
 					<FormGroup>
@@ -132,10 +132,10 @@ const NewApply = () => {
 							type='text'
 							name='city'
 							onChange={handleChange}
-							/* required */
+							required
 							value={values.city}
 						/>
-						{'city' in errors && <FieldInfo>{errors.city}</FieldInfo>}
+						{'city' in errors && <FieldInfo>{errors?.city}</FieldInfo>}
 					</FormGroup>
 					<SelectTechno>
 						<label htmlFor='technologies'>Technologies</label>
@@ -171,7 +171,7 @@ const NewApply = () => {
 							placeholder={`200 characters maximum...`}
 							value={values.comment}
 						/>
-						{'comment' in errors && <FieldInfo>{errors.comment}</FieldInfo>}
+						{'comment' in errors && <FieldInfo>{errors?.comment}</FieldInfo>}
 					</Comment>
 					<ButtonWrapper>
 						<Button type='submit'>Store</Button>

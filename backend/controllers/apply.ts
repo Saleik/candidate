@@ -57,12 +57,13 @@ const getAll = async (req: Request, res: Response, next: NextFunction) => {
 		(err: { message: string }) => console.log('Caught:', err.message)
 	);
 
-	if (applies) {
+	if (applies && applies.length > 0) {
 		return res.status(200).json(applies);
+	} else {
+		return res.status(404).json({
+			message: 'No apply found.',
+		});
 	}
-	return res.status(404).json({
-		message: 'Not Found',
-	});
 };
 export default {
 	seed,

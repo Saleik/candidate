@@ -71,6 +71,9 @@ export default Login;
 
 const Container = styled.div`
 	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 
 	form {
 		display: flex;
@@ -86,7 +89,7 @@ const FormGroup = styled.div`
 	display: flex;
 	flex-direction: column;
 	width: 100%;
-	padding-bottom: 1rem;
+	padding: 0.5rem 0;
 `;
 const FieldInfo = styled.span`
 	color: #ff0000;

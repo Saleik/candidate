@@ -23,7 +23,13 @@ const validateInfo = (values: IValues) => {
 				);
 
 				if (!validEmail.test(values[key].toString())) {
-					errors[key] = 'Invalid e-mail.';
+					errors[key] = 'Invalid E-mail.';
+				}
+			} else if (key === 'password') {
+				const validPassword =
+					/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
+				if (!validPassword.test(values[key].toString())) {
+					errors[key] = 'Invalid Password.';
 				}
 			}
 		} else if (Array.isArray(values[key])) {

@@ -48,10 +48,11 @@ const signin = async (req: Request, res: Response, next: NextFunction) => {
 				}
 			});
 		}
+	} else {
+		return res.status(401).json({
+			message: 'Invalid password or email.',
+		});
 	}
-	return res.status(401).json({
-		message: 'Invalid password or email.',
-	});
 };
 
 const register = async (req: Request, res: Response, next: NextFunction) => {

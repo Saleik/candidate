@@ -7,12 +7,6 @@ export interface RegisterState {
 	error: IError;
 }
 
-export interface RegisterData {
-	firstname: string;
-	lastname: string;
-	email: string;
-	password: string;
-}
 export interface UserData {
 	data: CurrentUser;
 }

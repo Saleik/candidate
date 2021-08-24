@@ -3,12 +3,13 @@ import { useDispatch } from 'react-redux';
 import validator from '../utils/validateInfo';
 import { store } from '../features/apply/storeApplySlice';
 import { signin } from '../features/auth/authSlice';
+import { signUp } from '../features/user/registerSlice';
 
 export interface IValues {
 	[key: string]: string | string[];
 }
 
-type ActionType = 'store' | 'register' | 'signin';
+type ActionType = 'store' | 'register' | 'signin' | 'signUp';
 
 //TODO: Generic input name
 const useForm = (
@@ -61,6 +62,9 @@ const useForm = (
 			case 'signin': {
 				dispatch(signin(values));
 				break;
+			}
+			case 'signUp': {
+				dispatch(signUp(values));
 			}
 		}
 	};
