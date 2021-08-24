@@ -39,24 +39,26 @@ export const { setStoreReset, setStoreFailed, setStoreSuccess, setLoading } =
 export const storeSelector = (state: RootState) => state.applyStore;
 
 export const store =
-	({
-		dateOfRecall,
-		corporation,
-		email,
-		position,
-		city,
-		technologies,
-		comment,
-		userId,
-		token,
-	}: StoreData): AppThunk =>
+	(
+		{
+			date,
+			corporation,
+			email,
+			position,
+			city,
+			technologies,
+			comment,
+		}: StoreData,
+		userId: string,
+		token: string
+	): AppThunk =>
 	async (dispatch) => {
 		try {
 			dispatch(setLoading(true));
 			await axios.post(
 				`${endpoints.REGISTER_APPLY_API}`,
 				{
-					reminder: dateOfRecall,
+					reminder: date,
 					corporation,
 					email,
 					position,

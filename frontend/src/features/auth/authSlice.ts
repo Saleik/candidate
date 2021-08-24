@@ -6,6 +6,7 @@ import axios from 'axios';
 import { AuthState, CurrentUser } from './@types/types';
 import endpoints from '../endpoints';
 import { UserData } from '../user/@types/types';
+import { IValues } from '../../hooks/useForm';
 
 export const initialState: AuthState = {
 	isAuth: localStorage.getItem('currentUser') ? true : false,
@@ -43,8 +44,8 @@ export const { setAuthSuccess, setLogOut, setLoading, setAuthFailed } =
 
 export const authSelector = (state: RootState) => state.auth;
 
-export const login =
-	(email: string, password: string): AppThunk =>
+export const signin =
+	({ email, password }: IValues): AppThunk =>
 	async (dispatch) => {
 		try {
 			dispatch(setLoading(true));

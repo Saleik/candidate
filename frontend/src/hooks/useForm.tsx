@@ -1,13 +1,14 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
+import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import validate from '../utils/validateInfo';
+import validator from '../utils/validateInfo';
 import { store } from '../features/apply/storeApplySlice';
+import { signin } from '../features/auth/authSlice';
 
 export interface IValues {
 	[key: string]: string | string[];
 }
 
-type ActionType = 'store' | 'register' | 'login';
+type ActionType = 'store' | 'register' | 'signin';
 
 //TODO: Generic input name
 const useForm = (
@@ -17,10 +18,10 @@ const useForm = (
 	token?: string
 ) => {
 	const [values, setValues] = useState<IValues>(fields);
-
 	const [errors, setErrors] = useState({});
+	const [isSubmitting, setIsSubmitting] = useState(false);
 
-	const handleSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
+	const handleSelect = (e: ChangeEvent<HTMLSelectElement>) => {
 		let tech = Array.from(
 			e.target.selectedOptions,
 			(option: HTMLOptionElement) => option.value
@@ -42,28 +43,32 @@ const useForm = (
 
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
-		setErrors(validate(values));
+		setErrors(validator(values));
+		setIsSubmitting(true);
+	};
 
-		if (Object.keys(errors).length == 0) {
-			switch (actionType) {
-				case 'store': {
-					if (userId && token) {
-						setValues({
-							...values,
-							userId: userId,
-							token: token,
-						});
-
-						console.log(values);
-						/* dispatch(store(values)); */
-					} else {
-						console.error('UserId & token not provided.');
-					}
+	const fetch = () => {
+		switch (actionType) {
+			case 'store': {
+				if (userId && token) {
+					dispatch(store(values, userId, token));
+					break;
+				} else {
+					console.error('UserId & token not provided.');
 					break;
 				}
 			}
+			case 'signin': {
+				dispatch(signin(values));
+				break;
+			}
 		}
 	};
+	useEffect(() => {
+		if (Object.keys(errors).length === 0 && isSubmitting) {
+			fetch();
+		}
+	}, [errors]);
 
 	return { values, handleChange, handleSelect, handleSubmit, errors };
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -38,7 +38,6 @@ export interface IObjectOptions {
 	[key: string]: string;
 }
 const NewApply = () => {
-	//test useForm
 	const { currentUser } = useSelector(authSelector);
 
 	const { values, handleChange, handleSelect, handleSubmit, errors } = useForm(
@@ -98,6 +97,7 @@ const NewApply = () => {
 							name='corporation'
 							onChange={handleChange}
 							value={values.corporation}
+							required
 						/>
 						{'corporation' in errors && (
 							<FieldInfo>{errors.corporation}</FieldInfo>
@@ -132,7 +132,7 @@ const NewApply = () => {
 							type='text'
 							name='city'
 							onChange={handleChange}
-							required
+							/* required */
 							value={values.city}
 						/>
 						{'city' in errors && <FieldInfo>{errors.city}</FieldInfo>}
@@ -144,7 +144,8 @@ const NewApply = () => {
 							name='technologies'
 							id='technologies'
 							multiple
-							value={values.technologies}>
+							value={values.technologies}
+							required>
 							{Object.entries(techOptions).map((value) => {
 								const optionValue = value[0];
 								const label = value[1];

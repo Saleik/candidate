@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import Field from '../components/field';
 import Button from '../components/button';
 import Loader from '../components/loader';
 import MessageBox from '../components/messageBox';
 import styled from 'styled-components';
-import { authSelector, login } from '../features/auth/authSlice';
+import { authSelector } from '../features/auth/authSlice';
 import { useHistory } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import useForm from '../hooks/useForm';
 
 const Login = () => {
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	const history = useHistory();
-	const { isLoading, error, isAuth } = useSelector(authSelector);
-	const dispatch = useDispatch();
+	const { handleSubmit, handleChange, errors } = useForm(
+		{
+			email: '',
+			password: '',
+		},
+		'signin'
+	);
 
-	const submitHandler = (e: React.SyntheticEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		dispatch(login(email.toString().toLowerCase(), password.toString()));
-	};
+	const history = useHistory();
+	const { isLoading, error: sendingError, isAuth } = useSelector(authSelector);
 
 	useEffect(() => {
 		if (isAuth) {
@@ -30,27 +30,31 @@ const Login = () => {
 	return (
 		<Container>
 			<h2>Sign In</h2>
-			{error.message && <MessageBox type='error'>{error.message}</MessageBox>}
+			{sendingError.message && (
+				<MessageBox type='error'>{sendingError.message}</MessageBox>
+			)}
 			{isLoading ? (
 				<Loader />
 			) : (
-				<form onSubmit={submitHandler}>
-					<Wrapper>
-						<Field
+				<form onSubmit={handleSubmit}>
+					<FormGroup>
+						<Input
 							type='email'
 							name='email'
 							placeholder='Enter Your E-mail'
-							onChange={setEmail}
-							required
+							onChange={handleChange}
 						/>
-					</Wrapper>
-					<Field
-						type='password'
-						name='password'
-						placeholder='Enter Your Password'
-						onChange={setPassword}
-						required
-					/>
+						{'email' in errors && <FieldInfo>{errors?.email}</FieldInfo>}
+					</FormGroup>
+					<FormGroup>
+						<Input
+							type='password'
+							name='password'
+							placeholder='Enter Your Password'
+							onChange={handleChange}
+						/>
+						{'password' in errors && <FieldInfo>{errors?.password}</FieldInfo>}
+					</FormGroup>
 					<Wrapper>
 						<Button type='submit'>Sign In</Button>
 					</Wrapper>
@@ -75,6 +79,28 @@ const Container = styled.div`
 	}
 	h2 {
 		margin: 0;
+		color: #000;
+	}
+`;
+const FormGroup = styled.div`
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	padding-bottom: 1rem;
+`;
+const FieldInfo = styled.span`
+	color: #ff0000;
+`;
+
+const Input = styled.input`
+	border: 0;
+	border-bottom: 0.1rem solid #000;
+	background-color: unset;
+	outline: none;
+	color: #000;
+	width: 100%;
+
+	::placeholder {
 		color: #000;
 	}
 `;
