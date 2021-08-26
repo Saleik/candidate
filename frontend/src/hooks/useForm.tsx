@@ -9,6 +9,10 @@ export interface IValues {
 	[key: string]: string | string[];
 }
 
+export interface IErrors {
+	[key: string]: string;
+}
+
 type ActionType = 'store' | 'register' | 'signin' | 'signUp';
 
 //TODO: Generic input name
@@ -19,7 +23,7 @@ const useForm = (
 	token?: string
 ) => {
 	const [values, setValues] = useState<IValues>(fields);
-	const [errors, setErrors] = useState({});
+	const [errors, setErrors] = useState<{} | IErrors>({});
 	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const handleSelect = (e: ChangeEvent<HTMLSelectElement>) => {

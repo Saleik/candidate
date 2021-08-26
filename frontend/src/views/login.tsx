@@ -44,7 +44,7 @@ const Login = () => {
 							placeholder='Enter Your E-mail'
 							onChange={handleChange}
 						/>
-						{'email' in errors && <FieldInfo>{errors?.email}</FieldInfo>}
+						{'email' in errors && <FieldInfo>{errors.email}</FieldInfo>}
 					</FormGroup>
 					<FormGroup>
 						<Input
@@ -53,7 +53,7 @@ const Login = () => {
 							placeholder='Enter Your Password'
 							onChange={handleChange}
 						/>
-						{'password' in errors && <FieldInfo>{errors?.password}</FieldInfo>}
+						{'password' in errors && <FieldInfo>{errors.password}</FieldInfo>}
 					</FormGroup>
 					<Wrapper>
 						<Button type='submit'>Sign In</Button>

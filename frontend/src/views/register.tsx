@@ -8,7 +8,7 @@ import Loader from '../components/loader';
 import MessageBox from '../components/messageBox';
 import { registerSelector } from '../features/user/registerSlice';
 import useForm from '../hooks/useForm';
-//FIXME:Typescript bug to errors object
+
 const Register = () => {
 	const [errorRegister, setErrorRegister] = useState<boolean | string>(false);
 	const [showPwd, setShowPwd] = useState(false);
@@ -51,9 +51,7 @@ const Register = () => {
 							value={values.firstname}
 							required
 						/>
-						{'firstname' in errors && (
-							<FieldInfo>{errors?.firstname}</FieldInfo>
-						)}
+						{'firstname' in errors && <FieldInfo>{errors.firstname}</FieldInfo>}
 					</FormGroup>
 					<FormGroup>
 						<label htmlFor='lastname'>Lastname</label>
@@ -64,7 +62,7 @@ const Register = () => {
 							value={values.lastname}
 							required
 						/>
-						{'lastname' in errors && <FieldInfo>{errors?.lastname}</FieldInfo>}
+						{'lastname' in errors && <FieldInfo>{errors.lastname}</FieldInfo>}
 					</FormGroup>
 					<FormGroup>
 						<label htmlFor='email'>E-mail</label>
@@ -75,7 +73,7 @@ const Register = () => {
 							required
 							value={values.email}
 						/>
-						{'email' in errors && <FieldInfo>{errors?.email}</FieldInfo>}
+						{'email' in errors && <FieldInfo>{errors.email}</FieldInfo>}
 					</FormGroup>
 
 					<FormGroup>
@@ -96,7 +94,7 @@ const Register = () => {
 							/>
 						</ShowPassword>
 
-						{'password' in errors && <FieldInfo>{errors?.password}</FieldInfo>}
+						{'password' in errors && <FieldInfo>{errors.password}</FieldInfo>}
 					</FormGroup>
 					<br />
 					<div>

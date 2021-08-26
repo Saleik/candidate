@@ -11,7 +11,9 @@ import { setStoreReset, storeSelector } from '../features/apply/storeSlice';
 import { authSelector } from '../features/auth/authSlice';
 import useForm from '../hooks/useForm';
 
-//FIXME:Typescript bug to errors object
+export interface IObjectOptions {
+	[key: string]: string;
+}
 
 const techOptions: IObjectOptions = {
 	html5: 'HTML5',
@@ -31,9 +33,7 @@ const techOptions: IObjectOptions = {
 	materialui: 'MaterialUI',
 	tailwindcss: 'TailwindCSS',
 };
-export interface IObjectOptions {
-	[key: string]: string;
-}
+
 const NewApply = () => {
 	const { currentUser } = useSelector(authSelector);
 
@@ -97,7 +97,7 @@ const NewApply = () => {
 							required
 						/>
 						{'corporation' in errors && (
-							<FieldInfo>{errors?.corporation}</FieldInfo>
+							<FieldInfo>{errors.corporation}</FieldInfo>
 						)}
 					</FormGroup>
 					<FormGroup>
@@ -109,7 +109,7 @@ const NewApply = () => {
 							required
 							value={values.email}
 						/>
-						{'email' in errors && <FieldInfo>{errors?.email}</FieldInfo>}
+						{'email' in errors && <FieldInfo>{errors.email}</FieldInfo>}
 					</FormGroup>
 					<FormGroup>
 						<label htmlFor='position'>Position</label>
@@ -120,7 +120,7 @@ const NewApply = () => {
 							value={values.position}
 							required
 						/>
-						{'position' in errors && <FieldInfo>{errors?.position}</FieldInfo>}
+						{'position' in errors && <FieldInfo>{errors.position}</FieldInfo>}
 					</FormGroup>
 
 					<FormGroup>
@@ -132,7 +132,7 @@ const NewApply = () => {
 							required
 							value={values.city}
 						/>
-						{'city' in errors && <FieldInfo>{errors?.city}</FieldInfo>}
+						{'city' in errors && <FieldInfo>{errors.city}</FieldInfo>}
 					</FormGroup>
 					<SelectTechno>
 						<label htmlFor='technologies'>Technologies</label>
@@ -154,7 +154,7 @@ const NewApply = () => {
 							})}
 						</select>
 						{'technologies' in errors && (
-							<FieldInfo>{errors?.technologies}</FieldInfo>
+							<FieldInfo>{errors.technologies}</FieldInfo>
 						)}
 					</SelectTechno>
 					<Comment>
@@ -168,7 +168,7 @@ const NewApply = () => {
 							placeholder={`200 characters maximum...`}
 							value={values.comment}
 						/>
-						{'comment' in errors && <FieldInfo>{errors?.comment}</FieldInfo>}
+						{'comment' in errors && <FieldInfo>{errors.comment}</FieldInfo>}
 					</Comment>
 					<ButtonWrapper>
 						<Button type='submit'>Store</Button>
