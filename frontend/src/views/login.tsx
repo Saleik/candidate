@@ -8,7 +8,7 @@ import { authSelector } from '../features/auth/authSlice';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import useForm from '../hooks/useForm';
-
+//FIXME:Typescript bug to errors object
 const Login = () => {
 	const { handleSubmit, handleChange, errors } = useForm(
 		{

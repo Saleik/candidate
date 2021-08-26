@@ -1,7 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import validator from '../utils/validateInfo';
-import { store } from '../features/apply/storeApplySlice';
+import { store } from '../features/apply/storeSlice';
 import { signin } from '../features/auth/authSlice';
 import { signUp } from '../features/user/registerSlice';
 

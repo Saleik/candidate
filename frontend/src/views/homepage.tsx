@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
@@ -6,23 +6,60 @@ import { v4 as uuidv4 } from 'uuid';
 import Card from '../components/card';
 import Loader from '../components/loader';
 import MessageBox from '../components/messageBox';
+import Modal from '../components/modal';
+import { del, deleteSelector } from '../features/apply/deleteSlice';
 import { fetchAll, getAllSelector } from '../features/apply/getAllSlice';
 import { authSelector } from '../features/auth/authSlice';
 
-//FIXME: hover adding button
+export interface IModal {
+	show: boolean;
+	id: string | null;
+}
+
 const Homepage = () => {
 	const { currentUser } = useSelector(authSelector);
 	const { applies, isLoading, error } = useSelector(getAllSelector);
+	const { isLoading: delLoading, error: delErr } = useSelector(deleteSelector);
+
+	const [modal, setModal] = useState<IModal>({
+		show: false,
+		id: null,
+	});
+
 	const dispatch = useDispatch();
+
+	const handleDeleteTrue = () => {
+		if (modal.show && modal.id) {
+			const deleteApply = applies?.filter((apply) => apply._id === modal.id);
+
+			if (deleteApply && currentUser?.token) {
+				const id = deleteApply[0]._id;
+				dispatch(del(currentUser.token, id));
+				setModal({ show: false, id: null });
+			}
+		}
+	};
+
+	const handleDeleteFalse = () => {
+		setModal({
+			show: false,
+			id: null,
+		});
+	};
 
 	useEffect(() => {
 		(async () => {
 			dispatch(fetchAll(currentUser?._id!));
 		})();
-	}, [currentUser, error.message]);
+	}, [currentUser, error.message, delLoading]);
 	return (
 		<Container>
 			<h2>List Of Applies</h2>
+			{modal.show && (
+				<Modal deleteFalse={handleDeleteFalse} deleteTrue={handleDeleteTrue}>
+					Confirm Deletion Please
+				</Modal>
+			)}
 			<IconWrapper>
 				<Link to={`/add/apply`}>
 					<AddIcon type='button'>
@@ -30,9 +67,11 @@ const Homepage = () => {
 					</AddIcon>
 				</Link>
 			</IconWrapper>
-			{error.message ? (
-				<MessageBox type='error'>{error.message}</MessageBox>
-			) : isLoading ? (
+			{error.message || delErr.message ? (
+				<MessageBox type='error'>
+					{error.message ? error.message : delErr.message}
+				</MessageBox>
+			) : isLoading || delLoading ? (
 				<Loader />
 			) : (
 				applies && (
@@ -40,6 +79,7 @@ const Homepage = () => {
 						{applies.map((apply) => (
 							<Card
 								key={uuidv4()}
+								_id={apply._id}
 								corporation={apply.corporation}
 								position={apply.position}
 								createdAt={apply.createdAt}
@@ -48,6 +88,7 @@ const Homepage = () => {
 								comment={apply.comment}
 								city={apply.city}
 								email={apply.email}
+								setModal={setModal}
 							/>
 						))}
 					</CardWrapper>
@@ -104,9 +145,12 @@ const AddIcon = styled.button`
 	@media screen and (min-width: 1024px) {
 		width: 50px;
 		height: 50px;
+
 		:hover {
 			background-color: black;
-			color: #ffa31a;
+			${PlusIcon} {
+				color: #ffa31a;
+			}
 		}
 	}
 `;

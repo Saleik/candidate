@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { Dispatch, ReactNode, SetStateAction } from 'react';
 import styled from 'styled-components';
 import { AppThunk } from '../../store/store';
 type ButtonProps = {
@@ -20,7 +20,7 @@ Button.defaultProps = {
 	type: 'button',
 };
 
-const Btn = styled.button`
+export const Btn = styled.button`
 	background-color: #ffa31a;
 	border-radius: 1rem;
 	border: 0;

@@ -11,6 +11,24 @@ const seed = async (req: Request, res: Response, next: NextFunction) => {
 	return res.status(200).send({ createdApplies });
 };
 
+const getAll = async (req: Request, res: Response, next: NextFunction) => {
+	logging.info(NAMESPACE, 'Get all current User applies');
+
+	const userId = req.query.userId;
+
+	const applies = await Apply.find({ userId: userId }).catch(
+		(err: { message: string }) => console.log('Caught:', err.message)
+	);
+
+	if (applies && applies.length > 0) {
+		return res.status(200).json(applies);
+	} else {
+		return res.status(404).json({
+			message: 'No apply found.',
+		});
+	}
+};
+
 const register = async (req: Request, res: Response, next: NextFunction) => {
 	logging.info(NAMESPACE, 'Store apply to db');
 	const {
@@ -40,33 +58,35 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 
 	if (createdApply) {
 		return res.status(201).json({
-			message: 'succeed',
+			message: 'Succeed.',
 		});
 	}
 	return res.status(500).json({
-		message: 'Error while adding, please try again',
+		message: 'Error while adding, please try again.',
 	});
 };
 
-const getAll = async (req: Request, res: Response, next: NextFunction) => {
-	logging.info(NAMESPACE, 'Get all current User applies');
+export const del = async (req: Request, res: Response, next: NextFunction) => {
+	logging.info(NAMESPACE, 'Delete apply');
 
-	const userId = req.query.userId;
-
-	const applies = await Apply.find({ userId: userId }).catch(
+	const isDeleted = await Apply.findByIdAndDelete(req.body._id).catch(
 		(err: { message: string }) => console.log('Caught:', err.message)
 	);
 
-	if (applies && applies.length > 0) {
-		return res.status(200).json(applies);
+	if (isDeleted) {
+		return res.status(200).json({
+			message: 'Deleted Successfully.',
+		});
 	} else {
 		return res.status(404).json({
-			message: 'No apply found.',
+			message: 'Apply id not found.',
 		});
 	}
 };
+
 export default {
 	seed,
-	register,
 	getAll,
+	register,
+	del,
 };

@@ -8,7 +8,7 @@ import signJWT from '../functions/signJWT';
 const NAMESPACE = 'User';
 
 const seed = async (req: Request, res: Response, next: NextFunction) => {
-	logging.info(NAMESPACE, `Users seed to db.`);
+	logging.info(NAMESPACE, 'Users seed to db.');
 	const createdUsers = await User.insertMany(data.users);
 
 	return res.status(200).send({ createdUsers });

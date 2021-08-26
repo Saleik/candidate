@@ -8,7 +8,7 @@ import Loader from '../components/loader';
 import MessageBox from '../components/messageBox';
 import { registerSelector } from '../features/user/registerSlice';
 import useForm from '../hooks/useForm';
-
+//FIXME:Typescript bug to errors object
 const Register = () => {
 	const [errorRegister, setErrorRegister] = useState<boolean | string>(false);
 	const [showPwd, setShowPwd] = useState(false);

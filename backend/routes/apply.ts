@@ -6,11 +6,11 @@ const router = express.Router();
 
 /** populate db */
 router.get('/seed', controllerApply.seed);
-/** add new apply */
-router.post('/register', extractJWT, controllerApply.register);
 /** get all current user applies */
 router.get('/all', controllerApply.getAll);
+/** add new apply */
+router.post('/register', extractJWT, controllerApply.register);
 /** delete apply */
-/* router.get('/delete', controllerApply.delete); */
+router.delete('/delete', extractJWT, controllerApply.del);
 
 export = router;

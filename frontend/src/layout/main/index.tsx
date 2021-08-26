@@ -34,6 +34,7 @@ const Container = styled.main`
 	justify-self: center;
 	align-self: center;
 	width: 100%;
+	position: relative;
 
 	@media screen and (min-width: 1024px) {
 		width: 50vw;

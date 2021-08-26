@@ -1,6 +1,7 @@
 import { IError } from '../../types';
 
 export type Applies = {
+	_id: string;
 	corporation: string;
 	email: string;
 	position: string;
@@ -30,4 +31,12 @@ export interface storeState {
 
 export interface StoreData {
 	[key: string]: string | string[];
+}
+
+//Delete Apply
+
+export interface DelApply {
+	success: boolean;
+	isLoading: boolean;
+	error: IError;
 }

@@ -3,8 +3,10 @@ import styled from 'styled-components';
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
 import Countdown from './childs/Countdown';
+import { IModal } from '../../views/Homepage';
 
 type Props = {
+	_id: string;
 	corporation: string;
 	email: string;
 	position: string;
@@ -13,9 +15,11 @@ type Props = {
 	city: string;
 	createdAt: Date;
 	reminder: Date;
+	setModal: React.Dispatch<React.SetStateAction<IModal>>;
 };
 
 const Card = ({
+	_id,
 	corporation,
 	position,
 	email,
@@ -24,11 +28,17 @@ const Card = ({
 	city,
 	createdAt,
 	reminder,
+	setModal,
 }: Props) => {
 	const dateHandler = (date: Date) => {
 		return moment(date).format('DD/MM/YY');
 	};
+
 	const technologiesArray = technologies.split(',');
+
+	const handleDeleteApply = (_id: string) => {
+		setModal({ show: true, id: _id });
+	};
 
 	return (
 		<CardContainer>
@@ -39,7 +49,9 @@ const Card = ({
 				<CreatedAt>
 					<span> Created At: {dateHandler(createdAt)}</span>
 				</CreatedAt>
-				<DelIcon>&#10539;</DelIcon>
+				<DelIcon onClick={() => handleDeleteApply(_id)} id={_id}>
+					&#10539;
+				</DelIcon>
 			</CardHeader>
 			<CardBody>
 				<div>

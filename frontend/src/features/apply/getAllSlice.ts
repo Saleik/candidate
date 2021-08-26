@@ -6,7 +6,7 @@ import { AppThunk } from '../../store/store';
 import { RootState } from '../../store/rootReducer';
 import axios from 'axios';
 
-export const initialState: GetApplies = {
+const initialState: GetApplies = {
 	applies: null,
 	isLoading: false,
 	error: { message: null },

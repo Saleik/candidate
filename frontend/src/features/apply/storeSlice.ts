@@ -6,7 +6,7 @@ import axios from 'axios';
 import endpoints from '../endpoints';
 import { storeState, StoreData } from './@types/types';
 
-export const initialState: storeState = {
+const initialState: storeState = {
 	isStore: false,
 	isLoading: false,
 	error: { message: null },

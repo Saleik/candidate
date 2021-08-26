@@ -7,10 +7,7 @@ import Button from '../components/button';
 import Loader from '../components/loader';
 import MessageBox from '../components/messageBox';
 import { v4 as uuidv4 } from 'uuid';
-import {
-	setStoreReset,
-	storeSelector,
-} from '../features/apply/storeApplySlice';
+import { setStoreReset, storeSelector } from '../features/apply/storeSlice';
 import { authSelector } from '../features/auth/authSlice';
 import useForm from '../hooks/useForm';
 

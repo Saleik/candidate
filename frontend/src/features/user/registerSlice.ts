@@ -8,7 +8,7 @@ import endpoints from '../endpoints';
 import { IError } from '../types';
 import { IValues } from '../../hooks/useForm';
 
-export const initialState: RegisterState = {
+const initialState: RegisterState = {
 	isRegister: false,
 	isLoading: false,
 	error: { message: null },

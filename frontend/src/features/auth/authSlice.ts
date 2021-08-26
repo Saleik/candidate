@@ -8,7 +8,7 @@ import endpoints from '../endpoints';
 import { UserData } from '../user/@types/types';
 import { IValues } from '../../hooks/useForm';
 
-export const initialState: AuthState = {
+const initialState: AuthState = {
 	isAuth: localStorage.getItem('currentUser') ? true : false,
 	currentUser: localStorage.getItem('currentUser')
 		? JSON.parse(localStorage.getItem('currentUser')!)
