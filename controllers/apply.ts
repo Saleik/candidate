@@ -89,19 +89,18 @@ const edit = async (req: Request, res: Response, next: NextFunction) => {
 
 	const { id, corporation, email, position, techno, comment, city, reminder } =
 		req.body;
-	console.log(req.body);
 	const apply = await Apply.findById(id).catch((err: { message: string }) =>
 		console.log('Caught:', err.message)
 	);
 
 	if (apply) {
-		apply.corporation = corporation || apply.corporation;
-		apply.email = email || apply.email;
-		apply.position = position || apply.position;
-		apply.techno = techno?.join(',') || apply.techno;
-		apply.comment = comment || apply.comment;
-		apply.city = city || apply.city;
-		apply.reminder = reminder || apply.reminder;
+		apply.corporation = corporation;
+		apply.email = email;
+		apply.position = position;
+		apply.techno = techno?.join(',');
+		apply.comment = comment;
+		apply.city = city;
+		apply.reminder = reminder;
 
 		const updatedApply = await apply
 			.save()
