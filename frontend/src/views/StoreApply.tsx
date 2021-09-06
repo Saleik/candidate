@@ -66,7 +66,6 @@ const StoreApply = ({ defaultValues, id, token, type }: Props) => {
 
 	const dispatch = useDispatch();
 
-	console.log(isEdit);
 	useEffect(() => {
 		if (isStore || isEdit) {
 			history.goBack();
