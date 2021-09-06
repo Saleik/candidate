@@ -1,4 +1,11 @@
-import mongoose from 'mongoose';
+import mongoose, { Document } from 'mongoose';
+
+interface ISavedUserSchema extends Document {
+	firstname: string;
+	lastname: string;
+	email: string;
+	password: string;
+}
 
 const userSchema = new mongoose.Schema(
 	{
@@ -12,6 +19,6 @@ const userSchema = new mongoose.Schema(
 	}
 );
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model<ISavedUserSchema>('User', userSchema);
 
 export default User;
