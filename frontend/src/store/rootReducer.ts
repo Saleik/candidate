@@ -1,3 +1,5 @@
+import editSlice from './../features/apply/editSlice';
+import getByIdSlice from './../features/apply/getByIdSlice';
 import storeSlice from '../features/apply/storeSlice';
 import getAllSlice from './../features/apply/getAllSlice';
 import registerSlice from '../features/user/registerSlice';
@@ -10,7 +12,9 @@ const rootReducer = combineReducers({
 	auth: authSlice,
 	userRegister: registerSlice,
 	applies: getAllSlice,
+	apply: getByIdSlice,
 	applyStore: storeSlice,
+	applyEdit: editSlice,
 	applyDelete: deleteSlice,
 });
 

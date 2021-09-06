@@ -1,4 +1,4 @@
-import { Applies, AppliesData, GetApplies } from './@types/types';
+import { Apply, AppliesData, GetApplies } from './@types/types';
 import { IError } from '../types';
 import endpoints from '../endpoints';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
@@ -19,7 +19,7 @@ export const getAllSlice = createSlice({
 		setLoading: (state, { payload }: PayloadAction<boolean>) => {
 			state.isLoading = payload;
 		},
-		setGetAllSuccess: (state, { payload }: PayloadAction<Applies[]>) => {
+		setGetAllSuccess: (state, { payload }: PayloadAction<Apply[]>) => {
 			state.applies = payload;
 		},
 		setGetAllFailed: (state, { payload }: PayloadAction<IError>) => {

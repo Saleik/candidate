@@ -1,6 +1,6 @@
 import { IError } from '../../types';
 
-export type Applies = {
+export type Apply = {
 	_id: string;
 	corporation: string;
 	email: string;
@@ -8,20 +8,29 @@ export type Applies = {
 	techno: string;
 	comment: string;
 	city: string;
-	createdAt: Date;
-	reminder: Date;
+	createdAt?: Date;
+	reminder?: Date;
 };
 
 //Get all applies
 export interface GetApplies {
-	applies: null | Applies[];
+	applies: null | Apply[];
 	isLoading: boolean;
 	error: IError;
 }
-export interface AppliesData {
-	data: Applies[];
-}
 
+export interface AppliesData {
+	data: Apply[];
+}
+//Get apply by ID
+export interface GetApply {
+	apply: Apply | null;
+	isLoading: boolean;
+	error: IError;
+}
+export interface ApplyData {
+	data: Apply;
+}
 //Add new apply
 export interface storeState {
 	isStore: boolean;
@@ -29,12 +38,17 @@ export interface storeState {
 	error: IError;
 }
 
+//Edit Apply
+export interface EditApply {
+	isEdit: boolean;
+	isLoading: boolean;
+	error: IError;
+}
 export interface StoreData {
 	[key: string]: string | string[];
 }
 
 //Delete Apply
-
 export interface DelApply {
 	success: boolean;
 	isLoading: boolean;

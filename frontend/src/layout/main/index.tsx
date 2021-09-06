@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import styled from 'styled-components';
 //User
-import Login from '../../views/Login';
+import Signin from '../../views/Signin';
 import Register from '../../views/Register';
 
 //Private
@@ -10,7 +10,8 @@ import PrivateRoute from '../../components/privateRoute';
 import Homepage from '../../views/Homepage';
 
 //Apply
-import NewApply from '../../views/NewApply';
+import StoreApply from '../../views/StoreApply';
+import EditOrStore from '../../middleware/EditOrStore';
 
 const Main = () => {
 	return (
@@ -18,10 +19,11 @@ const Main = () => {
 			<Switch>
 				{/* Authenticate Only  */}
 				<PrivateRoute exact path='/' component={Homepage} />
-				<PrivateRoute path='/add/apply' component={NewApply} />
+				<PrivateRoute exact path='/add/apply' component={EditOrStore} />
+				<PrivateRoute path='/update/apply/:id' component={EditOrStore} />
 
 				{/* User */}
-				<Route path='/signin' component={Login} />
+				<Route path='/signin' component={Signin} />
 				<Route path='/register' component={Register} />
 			</Switch>
 		</Container>

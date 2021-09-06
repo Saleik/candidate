@@ -61,10 +61,10 @@ const Homepage = () => {
 				</Modal>
 			)}
 			<IconWrapper>
-				<Link to={`/add/apply`}>
-					<AddIcon type='button'>
+				<Link to='/add/apply'>
+					<Icon type='button'>
 						<PlusIcon>&#43;</PlusIcon>
-					</AddIcon>
+					</Icon>
 				</Link>
 			</IconWrapper>
 			{error.message || delErr.message ? (
@@ -122,7 +122,7 @@ const IconWrapper = styled.div`
 
 const PlusIcon = styled.div``;
 
-const AddIcon = styled.button`
+const Icon = styled.button`
 	position: relative;
 	border: solid 0.1rem transparent;
 	width: 20px;

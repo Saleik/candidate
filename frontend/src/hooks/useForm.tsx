@@ -4,6 +4,7 @@ import validator from '../utils/validateInfo';
 import { store } from '../features/apply/storeSlice';
 import { signin } from '../features/auth/authSlice';
 import { signUp } from '../features/user/registerSlice';
+import { edit } from '../features/apply/editSlice';
 
 export interface IValues {
 	[key: string]: string | string[];
@@ -13,13 +14,12 @@ export interface IErrors {
 	[key: string]: string;
 }
 
-type ActionType = 'store' | 'register' | 'signin' | 'signUp';
+export type ActionType = 'store' | 'edit' | 'register' | 'signin' | 'signUp';
 
-//TODO: Generic input name
 const useForm = (
 	fields: IValues,
 	actionType: ActionType,
-	userId?: string,
+	id?: string,
 	token?: string
 ) => {
 	const [values, setValues] = useState<IValues>(fields);
@@ -45,7 +45,6 @@ const useForm = (
 	};
 
 	const dispatch = useDispatch();
-
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
 		setErrors(validator(values));
@@ -54,31 +53,51 @@ const useForm = (
 
 	const fetch = () => {
 		switch (actionType) {
-			case 'store': {
-				if (userId && token) {
-					dispatch(store(values, userId, token));
-					break;
-				} else {
-					console.error('UserId & token not provided.');
-					break;
-				}
-			}
 			case 'signin': {
 				dispatch(signin(values));
 				break;
 			}
 			case 'signUp': {
 				dispatch(signUp(values));
+				break;
+			}
+			case 'store': {
+				if (id && token) {
+					dispatch(store(values, id, token));
+					break;
+				} else {
+					console.error('UserId or token are not provided.');
+					break;
+				}
+			}
+			case 'edit': {
+				if (id && token) {
+					dispatch(edit(values, id, token));
+					break;
+				} else {
+					console.error('ApplyId or token are not provided.');
+					break;
+				}
 			}
 		}
 	};
+
 	useEffect(() => {
 		if (Object.keys(errors).length === 0 && isSubmitting) {
 			fetch();
 		}
+		return () => {
+			setIsSubmitting(false);
+		};
 	}, [errors]);
 
-	return { values, handleChange, handleSelect, handleSubmit, errors };
+	return {
+		values,
+		handleChange,
+		handleSelect,
+		handleSubmit,
+		errors,
+	};
 };
 
 export default useForm;

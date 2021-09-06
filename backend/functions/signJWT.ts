@@ -35,7 +35,7 @@ const signJWT = (
 				}
 			}
 		);
-	} catch (error) {
+	} catch (error: any) {
 		logging.error(NAMESPACE, error.message, error);
 		callback(error, null);
 	}

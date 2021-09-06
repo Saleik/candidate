@@ -4,6 +4,7 @@ import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
 import Countdown from './childs/Countdown';
 import { IModal } from '../../views/Homepage';
+import { Link } from 'react-router-dom';
 
 type Props = {
 	_id: string;
@@ -49,9 +50,26 @@ const Card = ({
 				<CreatedAt>
 					<span> Created At: {dateHandler(createdAt)}</span>
 				</CreatedAt>
-				<DelIcon onClick={() => handleDeleteApply(_id)} id={_id}>
-					&#10539;
-				</DelIcon>
+				<Actions>
+					<Icon
+						type='button'
+						action='delete'
+						onClick={() => handleDeleteApply(_id)}
+						id={_id}>
+						&#10539;
+					</Icon>
+					<Link
+						to={{
+							pathname: `/update/apply/${_id}`,
+							state: {
+								fromEditButton: true,
+							},
+						}}>
+						<Icon type='button' action='edit'>
+							&#9998;
+						</Icon>
+					</Link>
+				</Actions>
 			</CardHeader>
 			<CardBody>
 				<div>
@@ -130,15 +148,26 @@ const CreatedAt = styled.div`
 	color: #fff;
 `;
 
-const DelIcon = styled.span`
-	color: red;
+const Actions = styled.div`
+	display: flex;
 	grid-column: 3;
 	justify-self: center;
 	align-self: center;
+`;
+
+type IconProps = {
+	action: 'edit' | 'delete';
+};
+const Icon = styled.button<IconProps>`
+	color: #fff;
 	cursor: pointer;
+	padding: 0 0.5rem;
+	background-color: unset;
+	border: 0;
 
 	@media screen and (min-width: 1024px) {
 		:hover {
+			color: ${({ action }) => (action === 'edit' ? '#007acc' : '#ff3300')};
 			transform: scale(1.5);
 			transition: 0.5s;
 			font-weight: bold;

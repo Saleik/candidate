@@ -29,15 +29,15 @@ const signin = async (req: Request, res: Response, next: NextFunction) => {
 		email: req.body.email,
 	}).catch((err: { message: string }) => console.log('Caught:', err.message));
 
-	if (user) {
-		if (compareSync(req.body.password, user.password)) {
+	if (user)
+		if (compareSync(req.body.password, user.password))
 			signJWT(user, (_error, token) => {
-				if (_error) {
+				if (_error)
 					return res.status(500).json({
 						message: _error.message,
 						error: _error,
 					});
-				} else if (token) {
+				else if (token)
 					return res.status(200).json({
 						_id: user._id,
 						firstname: user.firstname,
@@ -45,14 +45,11 @@ const signin = async (req: Request, res: Response, next: NextFunction) => {
 						email: user.email,
 						token: token,
 					});
-				}
 			});
-		}
-	} else {
-		return res.status(401).json({
-			message: 'Invalid password or email.',
-		});
-	}
+		else
+			return res.status(401).json({
+				message: 'Invalid password or email.',
+			});
 };
 
 const register = async (req: Request, res: Response, next: NextFunction) => {
@@ -70,12 +67,12 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 	const createdUser = await user.save();
 
 	signJWT(user, (_error, token) => {
-		if (_error) {
+		if (_error)
 			return res.status(500).json({
 				message: _error.message,
 				error: _error,
 			});
-		} else if (token) {
+		else if (token)
 			return res.status(200).json({
 				_id: createdUser._id,
 				firstname: createdUser.firstname,
@@ -83,7 +80,6 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 				email: createdUser.email,
 				token: token,
 			});
-		}
 	});
 };
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
@@ -8,8 +8,9 @@ import Loader from '../components/loader';
 import MessageBox from '../components/messageBox';
 import { v4 as uuidv4 } from 'uuid';
 import { setStoreReset, storeSelector } from '../features/apply/storeSlice';
-import { authSelector } from '../features/auth/authSlice';
-import useForm from '../hooks/useForm';
+import useForm, { ActionType } from '../hooks/useForm';
+import { setGetByIdReset } from '../features/apply/getByIdSlice';
+import { editSelector, setEditSuccess } from '../features/apply/editSlice';
 
 export interface IObjectOptions {
 	[key: string]: string;
@@ -34,57 +35,71 @@ const techOptions: IObjectOptions = {
 	tailwindcss: 'TailwindCSS',
 };
 
-const NewApply = () => {
-	const { currentUser } = useSelector(authSelector);
-
-	const { values, handleChange, handleSelect, handleSubmit, errors } = useForm(
-		{
-			corporation: '',
-			email: '',
-			position: '',
-			city: '',
-			technologies: [],
-			comment: '',
-			date: '',
-		},
-		'store',
-		currentUser?._id,
-		currentUser?.token
-	);
+type Props = {
+	defaultValues: any;
+	id: string;
+	token: string;
+	type: ActionType;
+};
+const StoreApply = ({ defaultValues, id, token, type }: Props) => {
 	const history = useHistory();
-
+	//edit
 	const {
+		isLoading: loadingEdit,
+		isEdit,
+		error: errorToEdit,
+	} = useSelector(editSelector);
+
+	//add
+	const {
+		isLoading: loadingStore,
 		isStore,
 		error: errorToStore,
-		isLoading,
 	} = useSelector(storeSelector);
+
+	const { values, handleChange, handleSelect, handleSubmit, errors } = useForm(
+		defaultValues,
+		type,
+		id,
+		token
+	);
 
 	const dispatch = useDispatch();
 
+	console.log(isEdit);
 	useEffect(() => {
-		if (isStore) {
+		if (isStore || isEdit) {
 			history.goBack();
 		}
-
 		return () => {
 			dispatch(setStoreReset());
+			dispatch(setGetByIdReset());
+			dispatch(setEditSuccess(false));
 		};
-	}, [isStore, dispatch, history]);
+	}, [isStore, isEdit]);
 
 	return (
 		<Container>
 			<BackButton />
-			<h2>Add New Apply</h2>
-			{errorToStore.message && (
-				<MessageBox type='error'>{errorToStore.message}</MessageBox>
-			)}
-			{isLoading ? (
+			{type === 'edit' ? <h2>Edit Apply</h2> : <h2>New Apply</h2>}
+			{errorToStore.message ||
+				(errorToEdit.message && (
+					<MessageBox type='error'>
+						{errorToStore.message || errorToEdit.message}
+					</MessageBox>
+				))}
+			{loadingStore || loadingEdit ? (
 				<Loader />
 			) : (
 				<form onSubmit={handleSubmit}>
 					<DatePicker>
 						<label htmlFor='date'>Date Of Recall</label>
-						<input onChange={handleChange} type='date' name='date' />
+						<input
+							onChange={handleChange}
+							type='date'
+							name='date'
+							value={values.date}
+						/>
 						{'date' in errors && <FieldInfo>{errors.date}</FieldInfo>}
 					</DatePicker>
 					<FormGroup>
@@ -147,12 +162,34 @@ const NewApply = () => {
 								const optionValue = value[0];
 								const label = value[1];
 								return (
-									<option key={uuidv4()} value={optionValue}>
+									<option key={uuidv4()} defaultValue={optionValue}>
 										{label}
 									</option>
 								);
 							})}
 						</select>
+						{type === 'edit' && (
+							<>
+								<span>
+									Previous:{' '}
+									{Array.from(defaultValues.technologies).map((tech) =>
+										defaultValues.technologies[
+											defaultValues.technologies.length - 1
+										] !== tech
+											? tech + '/'
+											: tech
+									)}
+								</span>
+								<span>
+									Update:{' '}
+									{Array.from(values.technologies).map((tech) =>
+										values.technologies[values.technologies.length - 1] !== tech
+											? tech + '/'
+											: tech
+									)}
+								</span>
+							</>
+						)}
 						{'technologies' in errors && (
 							<FieldInfo>{errors.technologies}</FieldInfo>
 						)}
@@ -171,7 +208,9 @@ const NewApply = () => {
 						{'comment' in errors && <FieldInfo>{errors.comment}</FieldInfo>}
 					</Comment>
 					<ButtonWrapper>
-						<Button type='submit'>Store</Button>
+						<Button type='submit'>
+							{type === 'edit' ? 'Update' : 'Store'}
+						</Button>
 					</ButtonWrapper>
 				</form>
 			)}
@@ -179,7 +218,7 @@ const NewApply = () => {
 	);
 };
 
-export default NewApply;
+export default StoreApply;
 
 const Container = styled.div`
 	h2 {
