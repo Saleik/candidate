@@ -37,6 +37,15 @@ const Countdown = ({ timeTillDate, timeFormat }: Props) => {
 			seconds: seconds,
 		});
 	};
+
+	const datePassed = () => {
+		const today = new Date();
+		const recallDate = new Date(timeTillDate);
+
+		if (recallDate < today) return true;
+		else return false;
+	};
+
 	useEffect(() => {
 		const interval = setInterval(() => {
 			timesRemaining();
@@ -44,9 +53,10 @@ const Countdown = ({ timeTillDate, timeFormat }: Props) => {
 		return () => clearInterval(interval);
 	}, []);
 	return (
-		<TimeBeforeRecall days={'timeRemaining.days'}>
+		<TimeBeforeRecall valid={datePassed()} days={timeRemaining.days}>
 			Times Before Recall:
 			<b>
+				{datePassed() && '-'}
 				{timeRemaining.days} Days - {timeRemaining.hours}:
 				{timeRemaining.minutes}:{timeRemaining.seconds}
 			</b>
@@ -56,6 +66,7 @@ const Countdown = ({ timeTillDate, timeFormat }: Props) => {
 
 type TimeBeforeRecallProps = {
 	days: string | undefined;
+	valid: boolean;
 };
 const TimeBeforeRecall = styled.span<TimeBeforeRecallProps>`
 	color: #ffff;
@@ -64,10 +75,10 @@ const TimeBeforeRecall = styled.span<TimeBeforeRecallProps>`
 	flex-wrap: wrap;
 
 	b {
-		color: ${({ days }) =>
-			days && parseInt(days) < 7 && parseInt(days) > 2
+		color: ${({ days, valid }) =>
+			days && !valid && parseInt(days, 10) < 7 && parseInt(days, 10) > 2
 				? '#ffff'
-				: days && parseInt(days) <= 2
+				: (days && parseInt(days, 10) <= 2) || valid
 				? '#ff3300'
 				: '#1faa1f'};
 		padding-left: 0.2rem;

@@ -6,7 +6,7 @@ interface IErrors {
 	[key: string]: string;
 }
 const validateInfo = (values: IValues) => {
-	let errors: any = {};
+	let errors: IErrors = {};
 
 	Object.keys(values).forEach((key) => {
 		if (typeof values[key] === 'string') {
