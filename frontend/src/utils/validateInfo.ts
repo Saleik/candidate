@@ -1,6 +1,5 @@
+import moment from 'moment';
 import { IValues } from '../hooks/useForm';
-
-//TODO: ADD CONDITION SAME YEAR BEFORE VALIDATED DATE RECALL
 
 interface IErrors {
 	[key: string]: string;
@@ -14,10 +13,14 @@ const validateInfo = (values: IValues) => {
 				const field = key.charAt(0).toUpperCase() + key.slice(1);
 				errors[key] = `${field} is required.`;
 			} else if (key === 'date') {
-				const recall = new Date(values[key].toString());
-				const today = new Date();
-				if (recall.getTime() === recall.getTime() && recall < today) {
+				const recall = moment(values[key].toString());
+				const monthLater = moment().add(1, 'month');
+
+				const today = moment();
+				if (recall.isValid() && recall < today) {
 					errors[key] = 'Please select a date beyond today.';
+				} else if (monthLater < recall) {
+					errors[key] = 'Please select a date in less than a month.';
 				}
 			} else if (key === 'email') {
 				const validEmail = new RegExp(
@@ -29,7 +32,7 @@ const validateInfo = (values: IValues) => {
 				}
 			} else if (key === 'password') {
 				const validPassword =
-					/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/;
+					/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*?[0-9])(?=.*[!@#$%^&*]).{8,}$/;
 				if (!validPassword.test(values[key].toString())) {
 					errors[key] = 'Invalid Password.';
 				}

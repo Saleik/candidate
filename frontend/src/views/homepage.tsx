@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -52,6 +53,7 @@ const Homepage = () => {
 			dispatch(fetchAll(currentUser?._id!));
 		})();
 	}, [currentUser, error.message, delLoading]);
+
 	return (
 		<Container>
 			<h2>List Of Applies</h2>
@@ -82,8 +84,8 @@ const Homepage = () => {
 								_id={apply._id}
 								corporation={apply.corporation}
 								position={apply.position}
-								createdAt={apply.createdAt}
-								reminder={apply.reminder}
+								createdAt={apply.createdAt!}
+								reminder={apply.reminder!}
 								technologies={apply.techno}
 								comment={apply.comment}
 								city={apply.city}

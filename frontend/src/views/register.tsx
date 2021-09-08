@@ -93,6 +93,11 @@ const Register = () => {
 								onClick={() => setShowPwd(!showPwd)}
 							/>
 						</ShowPassword>
+						<small>
+							<b>
+								8 characters, 1 uppercase letter, 1 special char and 1 digit
+							</b>{' '}
+						</small>
 
 						{'password' in errors && <FieldInfo>{errors.password}</FieldInfo>}
 					</FormGroup>
