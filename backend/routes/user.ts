@@ -3,9 +3,6 @@ import controllerUser from '../controllers/user';
 
 const router = express.Router();
 
-/** populate db */
-router.get('/seed', controllerUser.seed);
-
 /** validate token */
 router.get('/validate', controllerUser.validateToken);
 

@@ -6,7 +6,6 @@ import { AppThunk } from '../../store/store';
 import { RootState } from '../../store/rootReducer';
 import axios from 'axios';
 
-//TODO: REFACTOR TOKEN USAGE
 const initialState: GetApply = {
 	apply: null,
 	isLoading: false,
@@ -41,7 +40,6 @@ export const {
 
 export const getByIdSelector = (state: RootState) => state.apply;
 
-//TODO: CONTINUE GET APPLY FUNCTION
 export const fetchById =
 	(id: string, token: string): AppThunk =>
 	async (dispatch) => {

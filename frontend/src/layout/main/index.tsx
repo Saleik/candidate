@@ -19,7 +19,7 @@ const Main = () => {
 			<Switch>
 				{/* Authenticate Only  */}
 				<PrivateRoute exact path='/' component={Homepage} />
-				<PrivateRoute exact path='/add/apply' component={EditOrStore} />
+				<PrivateRoute path='/add/apply' component={EditOrStore} />
 				<PrivateRoute path='/update/apply/:id' component={EditOrStore} />
 
 				{/* User */}

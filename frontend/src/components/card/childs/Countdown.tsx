@@ -9,7 +9,6 @@ interface TimeRemaining {
 	seconds: undefined | string;
 }
 
-//FIXME: COUNTDOWN BUG IN MONTH
 type Props = {
 	timeTillDate: string;
 	timeFormat: string;
