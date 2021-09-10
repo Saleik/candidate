@@ -4,8 +4,6 @@ import controllerApply from '../controllers/apply';
 
 const router = express.Router();
 
-/** populate db */
-router.get('/seed', controllerApply.seed);
 /** get all current user applies */
 router.get('/all', controllerApply.getAll);
 /** get apply by id */

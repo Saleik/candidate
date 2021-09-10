@@ -1,15 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
 import logging from '../config/logging';
 import Apply from '../models/apply';
-import data from '../data';
 
 const NAMESPACE = 'Apply';
-
-const seed = async (req: Request, res: Response, next: NextFunction) => {
-	logging.info(NAMESPACE, 'Apply seed to DB.');
-	const createdApplies = await Apply.insertMany(data.applies);
-	return res.status(200).send({ createdApplies });
-};
 
 const getAll = async (req: Request, res: Response, next: NextFunction) => {
 	logging.info(NAMESPACE, 'Get all current User applies.');
@@ -137,7 +130,6 @@ export const del = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export default {
-	seed,
 	getAll,
 	getById,
 	register,
