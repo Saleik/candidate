@@ -3,6 +3,7 @@
 	"version": "1.0.0",
 	"license": "ISC",
 	"scripts": {
+		"start": "node build/server.js",
 		"dev": "nodemon --watch 'backend/**/*.ts' --exec 'ts-node' server.ts",
 		"build": "rm -rf build/ --write backend/ && tsc"
 	},

@@ -1,18 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import logging from '../config/logging';
 import User from '../models/user';
-import data from '../data';
 import { hashSync, compareSync } from 'bcrypt';
 import signJWT from '../functions/signJWT';
 
 const NAMESPACE = 'User';
-
-const seed = async (req: Request, res: Response, next: NextFunction) => {
-	logging.info(NAMESPACE, 'Users seed to db.');
-	const createdUsers = await User.insertMany(data.users);
-
-	return res.status(200).send({ createdUsers });
-};
 
 const validateToken = (req: Request, res: Response, next: NextFunction) => {
 	logging.info(NAMESPACE, 'Token validated, user authorized');
@@ -84,7 +76,6 @@ const register = async (req: Request, res: Response, next: NextFunction) => {
 };
 
 export default {
-	seed,
 	signin,
 	validateToken,
 	register,
