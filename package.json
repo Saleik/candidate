@@ -5,14 +5,15 @@
 	"scripts": {
 		"start": "node build/server.js",
 		"dev": "nodemon --watch 'backend/**/*.ts' --exec 'ts-node' server.ts",
-		"build": "rm -rf build/ --write backend/ && tsc"
+		"build": "rm -rf build && tsc"
 	},
 	"dependencies": {
 		"bcrypt": "^5.0.1",
 		"dotenv": "^10.0.0",
 		"express": "^4.17.1",
 		"jsonwebtoken": "^8.5.1",
-		"mongoose": "^5.12.14"
+		"mongoose": "^5.12.14",
+		"typescript": "^4.3.2"
 	},
 	"devDependencies": {
 		"@types/bcrypt": "^5.0.0",
@@ -26,10 +27,10 @@
 		"eslint-plugin-import": "^2.22.1",
 		"identity-obj-proxy": "^3.0.0",
 		"nodemon": "^2.0.7",
-		"ts-node": "^10.0.0",
-		"typescript": "^4.3.2"
+		"ts-node": "^10.0.0"
 	},
 	"engines": {
-		"node": ">=16.8.0"
+		"node": "16.8.0",
+		"yarn": "1.22.11"
 	}
 }
