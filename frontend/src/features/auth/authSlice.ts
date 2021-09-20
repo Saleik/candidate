@@ -55,7 +55,7 @@ export const signin =
 			});
 			dispatch(setAuthSuccess(data));
 			localStorage.setItem('currentUser', JSON.stringify(data));
-		} catch (error) {
+		} catch (error: any) {
 			const errorMessage: IError = {
 				message: error.response?.data.message || error.message,
 			};

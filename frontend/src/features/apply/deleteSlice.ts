@@ -50,7 +50,7 @@ export const del =
 				},
 			});
 			dispatch(setDeleteSuccess(true));
-		} catch (error) {
+		} catch (error: any) {
 			const errorMessage: IError = {
 				message: error.response?.data.message || error.message,
 			};
