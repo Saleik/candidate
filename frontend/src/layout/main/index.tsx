@@ -10,7 +10,6 @@ import PrivateRoute from '../../components/privateRoute';
 import Homepage from '../../views/Homepage';
 
 //Apply
-import StoreApply from '../../views/StoreApply';
 import EditOrStore from '../../middleware/EditOrStore';
 
 const Main = () => {

@@ -63,8 +63,7 @@ const useForm = (
 			}
 			case 'store': {
 				if (id && token) {
-					/* dispatch(store(values, id, token)); */
-					console.log('storing...');
+					dispatch(store(values, id, token));
 					break;
 				} else {
 					console.error('UserId or token are not provided.');
