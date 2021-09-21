@@ -25,10 +25,13 @@ export const getAllSlice = createSlice({
 		setGetAllFailed: (state, { payload }: PayloadAction<IError>) => {
 			state.error = payload;
 		},
+		setGetAllReset: (state) => {
+			state.error.message = null;
+		},
 	},
 });
 
-export const { setLoading, setGetAllSuccess, setGetAllFailed } =
+export const { setLoading, setGetAllSuccess, setGetAllFailed, setGetAllReset } =
 	getAllSlice.actions;
 
 export const getAllSelector = (state: RootState) => state.applies;

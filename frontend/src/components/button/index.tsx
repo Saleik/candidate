@@ -1,10 +1,9 @@
-import React, { Dispatch, ReactNode, SetStateAction } from 'react';
+import React, { ReactNode } from 'react';
 import styled from 'styled-components';
-import { AppThunk } from '../../store/store';
 type ButtonProps = {
 	children: ReactNode;
 	type: 'button' | 'submit' | 'reset';
-	onClick?: () => AppThunk;
+	onClick?: () => void;
 };
 const Button = ({ children, type, onClick }: ButtonProps) => {
 	return (

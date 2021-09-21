@@ -28,10 +28,6 @@ export const authSlice = createSlice({
 			state.currentUser = payload;
 			state.isAuth = true;
 		},
-		setLogOut: (state) => {
-			state.isAuth = false;
-			state.currentUser = undefined;
-		},
 		setAuthFailed: (state, { payload }: PayloadAction<IError>) => {
 			state.error = payload;
 			state.isAuth = false;
@@ -39,8 +35,7 @@ export const authSlice = createSlice({
 	},
 });
 
-export const { setAuthSuccess, setLogOut, setLoading, setAuthFailed } =
-	authSlice.actions;
+export const { setAuthSuccess, setLoading, setAuthFailed } = authSlice.actions;
 
 export const authSelector = (state: RootState) => state.auth;
 
@@ -65,9 +60,8 @@ export const signin =
 		}
 	};
 
-export const logOut = (): AppThunk => (dispatch) => {
+export const logOut = () => {
 	localStorage.removeItem('currentUser');
-	window.location.href = '/signin';
-	dispatch(setLogOut());
+	window.location.replace('/signin');
 };
 export default authSlice.reducer;

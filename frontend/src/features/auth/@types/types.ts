@@ -2,7 +2,7 @@ import { IError } from '../../types';
 
 export interface AuthState {
 	isAuth: boolean;
-	currentUser?: CurrentUser;
+	currentUser: CurrentUser | null;
 	isLoading: boolean;
 	error: IError;
 }

@@ -6,8 +6,6 @@ import Button from '../../components/button';
 import { authSelector, logOut } from '../../features/auth/authSlice';
 const Header = () => {
 	const { currentUser } = useSelector(authSelector);
-	const dispatch = useDispatch();
-	const userLogOut = dispatch(logOut);
 	return (
 		<Container>
 			<h1>
@@ -26,7 +24,7 @@ const Header = () => {
 				</ul>
 			</nav>
 			{currentUser?.token && (
-				<Button type='button' onClick={userLogOut}>
+				<Button type='button' onClick={logOut}>
 					Log Out
 				</Button>
 			)}

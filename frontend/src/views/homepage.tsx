@@ -1,4 +1,3 @@
-import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -9,7 +8,11 @@ import Loader from '../components/loader';
 import MessageBox from '../components/messageBox';
 import Modal from '../components/modal';
 import { del, deleteSelector } from '../features/apply/deleteSlice';
-import { fetchAll, getAllSelector } from '../features/apply/getAllSlice';
+import {
+	fetchAll,
+	getAllSelector,
+	setGetAllReset,
+} from '../features/apply/getAllSlice';
 import { authSelector } from '../features/auth/authSlice';
 
 export interface IModal {
@@ -52,8 +55,11 @@ const Homepage = () => {
 		(async () => {
 			dispatch(fetchAll(currentUser?._id!));
 		})();
-	}, [currentUser, error.message, delLoading]);
 
+		return () => {
+			dispatch(setGetAllReset());
+		};
+	}, [currentUser, delLoading]);
 	return (
 		<Container>
 			<h2>List Of Applies</h2>
