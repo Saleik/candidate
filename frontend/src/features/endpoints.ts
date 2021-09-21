@@ -1,21 +1,23 @@
+//SERVER
+const SERVER_API = 'https://candidatebackend.herokuapp.com';
 //USER
+const AUTH_API = '/api/user/signin';
 
-const AUTH_API = 'candidate.sarrazin-kevin.fr/api/user/signin';
-
-const REGISTER_USER_API = 'candidate.sarrazin-kevin.fr/api/user/register';
+const REGISTER_USER_API = '/api/user/register';
 
 //APPLY
-const GET_ALL_APPLIES_API = 'candidate.sarrazin-kevin.fr/api/apply/all';
+const GET_ALL_APPLIES_API = '/api/apply/all';
 
-const GET_BY_ID_APPLY_API = 'candidate.sarrazin-kevin.fr/api/apply/get';
+const GET_BY_ID_APPLY_API = '/api/apply/get';
 
-const REGISTER_APPLY_API = 'candidate.sarrazin-kevin.fr/api/apply/register';
+const REGISTER_APPLY_API = '/api/apply/register';
 
-const EDIT_APPLY_API = 'candidate.sarrazin-kevin.fr/api/apply/edit';
+const EDIT_APPLY_API = '/api/apply/edit';
 
-const DELETE_APPLY_API = 'candidate.sarrazin-kevin.fr/api/apply/delete';
+const DELETE_APPLY_API = '/api/apply/delete';
 
 export default {
+	SERVER_API,
 	AUTH_API,
 	REGISTER_USER_API,
 	GET_ALL_APPLIES_API,

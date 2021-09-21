@@ -41,14 +41,17 @@ export const del =
 		try {
 			dispatch(setLoading(true));
 
-			await axios.delete(`${endpoints.DELETE_APPLY_API}`, {
-				data: {
-					_id: _id,
-				},
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			});
+			await axios.delete(
+				`${endpoints.SERVER_API + endpoints.DELETE_APPLY_API}`,
+				{
+					data: {
+						_id: _id,
+					},
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
 			dispatch(setDeleteSuccess(true));
 		} catch (error: any) {
 			const errorMessage: IError = {

@@ -53,7 +53,7 @@ export const edit =
 			dispatch(setLoading(true));
 
 			await axios.put(
-				endpoints.EDIT_APPLY_API,
+				endpoints.SERVER_API + endpoints.EDIT_APPLY_API,
 				{
 					id,
 					reminder: date,

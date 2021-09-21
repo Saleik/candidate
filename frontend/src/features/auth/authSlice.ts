@@ -44,10 +44,13 @@ export const signin =
 	async (dispatch) => {
 		try {
 			dispatch(setLoading(true));
-			const { data }: UserData = await axios.post(`${endpoints.AUTH_API}`, {
-				email,
-				password,
-			});
+			const { data }: UserData = await axios.post(
+				`${endpoints.SERVER_API + endpoints.AUTH_API}`,
+				{
+					email,
+					password,
+				}
+			);
 			dispatch(setAuthSuccess(data));
 			localStorage.setItem('currentUser', JSON.stringify(data));
 		} catch (error: any) {

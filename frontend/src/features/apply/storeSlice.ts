@@ -56,7 +56,7 @@ export const store =
 		try {
 			dispatch(setLoading(true));
 			await axios.post(
-				`${endpoints.REGISTER_APPLY_API}`,
+				`${endpoints.SERVER_API + endpoints.REGISTER_APPLY_API}`,
 				{
 					reminder: date,
 					corporation,

@@ -46,7 +46,7 @@ export const fetchById =
 		try {
 			setLoading(true);
 			const { data }: ApplyData = await axios.get(
-				`${endpoints.GET_BY_ID_APPLY_API}/${id}`,
+				`${endpoints.SERVER_API + endpoints.GET_BY_ID_APPLY_API}/${id}`,
 				{
 					headers: {
 						Authorization: `Bearer ${token}`,

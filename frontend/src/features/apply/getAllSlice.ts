@@ -42,7 +42,7 @@ export const fetchAll =
 		try {
 			dispatch(setLoading(true));
 			const { data }: AppliesData = await axios.get(
-				`${endpoints.GET_ALL_APPLIES_API}`,
+				`${endpoints.SERVER_API + endpoints.GET_ALL_APPLIES_API}`,
 				{
 					params: {
 						userId: userId,
