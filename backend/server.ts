@@ -50,7 +50,10 @@ app.use((req, res, next) => {
 
 /** Rules of our API */
 https: app.use((req, res, next) => {
-	res.header('Access-Control-Allow-Origin', 'candidate.sarrazin-kevin.fr');
+	res.header(
+		'Access-Control-Allow-Origin',
+		'https://61894197b5078149cab0825d--candidate-react-frontend.netlify.app'
+	);
 	res.header(
 		'Access-Control-Allow-Headers',
 		'Origin, X-Requested-With, Content-Type, Accept, Authorization'
