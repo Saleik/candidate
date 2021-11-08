@@ -42,7 +42,7 @@ export const signUp =
 		try {
 			dispatch(setLoading(true));
 			const { data }: UserData = await axios.post(
-				`${endpoints.SERVER_API + endpoints.REGISTER_USER_API}`,
+				`${endpoints.REGISTER_USER_API}`,
 				{
 					firstname,
 					lastname,
