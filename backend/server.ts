@@ -52,7 +52,7 @@ app.use((req, res, next) => {
 https: app.use((req, res, next) => {
 	res.header(
 		'Access-Control-Allow-Origin',
-		'https://61894197b5078149cab0825d--candidate-react-frontend.netlify.app'
+		'https://candidate-react-frontend.netlify.app/'
 	);
 	res.header(
 		'Access-Control-Allow-Headers',
