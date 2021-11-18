@@ -7,11 +7,11 @@ const NAMESPACE = 'Apply';
 const getAll = async (req: Request, res: Response, next: NextFunction) => {
 	logging.info(NAMESPACE, 'Get all current User applies.');
 
-	const userId = req.query.userId;
+	const userId = req.query.userId as string;
 
-	const applies = await Apply.find({ userId: userId }).catch(
-		(err: { message: string }) => console.log('Caught:', err.message)
-	);
+	const applies = await Apply.find({
+		userId: userId,
+	}).catch((err: { message: string }) => console.log('Caught:', err.message));
 
 	if (applies && applies.length > 0) return res.status(200).json(applies);
 	else

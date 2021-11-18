@@ -18,7 +18,7 @@ const Header = () => {
 					</li>
 					<li>
 						<q>
-							<i>Manage your apply</i>
+							<i>Manage your applications</i>
 						</q>
 					</li>
 				</ul>

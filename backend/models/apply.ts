@@ -1,5 +1,15 @@
-import mongoose from 'mongoose';
+import mongoose, { Date } from 'mongoose';
 
+export interface ISavedApplySchema {
+	corporation: string;
+	email: string;
+	position: string;
+	techno: string;
+	comment: string;
+	city: string;
+	reminder: Date;
+	userId: mongoose.Types.ObjectId;
+}
 const applySchema = new mongoose.Schema(
 	{
 		corporation: { type: String, required: true },
@@ -20,6 +30,6 @@ const applySchema = new mongoose.Schema(
 	}
 );
 
-const Apply = mongoose.model('Apply', applySchema);
+const Apply = mongoose.model<ISavedApplySchema>('Apply', applySchema);
 
 export default Apply;

@@ -1,6 +1,6 @@
-import mongoose, { Document } from 'mongoose';
+import mongoose from 'mongoose';
 
-interface ISavedUserSchema extends Document {
+interface ISavedUserSchema {
 	firstname: string;
 	lastname: string;
 	email: string;
