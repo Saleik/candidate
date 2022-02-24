@@ -65,6 +65,6 @@ export const signin =
 
 export const logOut = () => {
 	localStorage.removeItem('currentUser');
-	window.location.replace('/signin');
+	window.location.replace('/');
 };
 export default authSlice.reducer;

@@ -26,7 +26,7 @@ const Register = () => {
 	);
 
 	useEffect(() => {
-		if (isRegister) history.push('/');
+		if (isRegister) history.push('/applies');
 		if (error.message) {
 			setErrorRegister(error.message);
 		}

@@ -17,12 +17,12 @@ const Main = () => {
 		<Container>
 			<Switch>
 				{/* Authenticate Only  */}
-				<PrivateRoute exact path='/' component={Homepage} />
+				<PrivateRoute path='/applies' component={Homepage} />
 				<PrivateRoute path='/add/apply' component={EditOrStore} />
 				<PrivateRoute path='/update/apply/:id' component={EditOrStore} />
 
 				{/* User */}
-				<Route path='/signin' component={Signin} />
+				<Route exact path='/' component={Signin} />
 				<Route path='/register' component={Register} />
 			</Switch>
 		</Container>

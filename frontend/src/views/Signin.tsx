@@ -23,7 +23,7 @@ const Login = () => {
 
 	useEffect(() => {
 		if (isAuth) {
-			history.push('/');
+			history.push('/applies');
 		}
 	}, [isAuth]);
 

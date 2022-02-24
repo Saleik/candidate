@@ -14,7 +14,7 @@ export const PrivateRoute = ({ component: Component, ...rest }: Props) => {
 		<Route
 			{...rest}
 			render={(props) =>
-				isAuth ? <Component {...props} /> : <Redirect to='/signin' />
+				isAuth ? <Component {...props} /> : <Redirect to='/' />
 			}></Route>
 	);
 };
