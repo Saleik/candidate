@@ -52,7 +52,7 @@ app.use((req, res, next) => {
 https: app.use((req, res, next) => {
 	res.header(
 		'Access-Control-Allow-Origin',
-		'https://jolly-poincare-d56e6c.netlify.app'
+		'https://epic-jennings-3313a1.netlify.app'
 	);
 	res.header(
 		'Access-Control-Allow-Headers',
@@ -70,7 +70,6 @@ https: app.use((req, res, next) => {
 /** Routes */
 app.use('/api/user', userRoutes);
 app.use('/api/apply', applyRoutes);
-
 /** Error Handling */
 app.use((req, res, next) => {
 	const error = new Error('Not Found');
