@@ -52,7 +52,7 @@ app.use((req, res, next) => {
 https: app.use((req, res, next) => {
 	res.header(
 		'Access-Control-Allow-Origin',
-		'https://candidate-react-frontend.netlify.app'
+		'https://jolly-poincare-d56e6c.netlify.app/'
 	);
 	res.header(
 		'Access-Control-Allow-Headers',
