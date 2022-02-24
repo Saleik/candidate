@@ -52,7 +52,7 @@ app.use((req, res, next) => {
 https: app.use((req, res, next) => {
 	res.header(
 		'Access-Control-Allow-Origin',
-		'https://epic-jennings-3313a1.netlify.app'
+		'https://blissful-curie-cd862e.netlify.app'
 	);
 	res.header(
 		'Access-Control-Allow-Headers',
