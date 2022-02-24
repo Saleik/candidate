@@ -5,6 +5,11 @@ import legacy from '@vitejs/plugin-legacy';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+	root: './',
+	build: {
+		outDir: 'dist',
+	},
+	publicDir: 'assets',
 	plugins: [
 		reactRefresh(),
 		svgr(),
@@ -13,11 +18,3 @@ export default defineConfig({
 		}),
 	],
 });
-
-module.exports = {
-	root: './',
-	build: {
-		outDir: 'dist',
-	},
-	publicDir: 'assets',
-};

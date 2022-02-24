@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import logo from '../../assets/images/logo.svg';
+import logo from '/images/logo.svg?url';
 import Button from '../../components/button';
 import { authSelector, logOut } from '../../features/auth/authSlice';
 const Header = () => {
