@@ -2,15 +2,15 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import styled from 'styled-components';
 //User
-import Signin from '../../views/signin';
-import Register from '../../views/register';
+import Signin from '../../views/Signin';
+import Register from '../../views/Register';
 
 //Private
 import PrivateRoute from '../../components/privateRoute';
 
 //Apply
 import EditOrStore from '../../middleware/EditOrStore';
-import Homepage from '../../views/homepage';
+import Homepage from '../../views/Homepage';
 
 const Main = () => {
 	return (
