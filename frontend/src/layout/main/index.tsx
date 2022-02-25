@@ -2,8 +2,8 @@ import React from 'react';
 import { Switch, Route } from 'react-router-dom';
 import styled from 'styled-components';
 //User
-import Signin from '../../views/Signin';
-import Register from '../../views/Register';
+import Signin from '../../views/signin';
+import Register from '../../views/register';
 
 //Private
 import PrivateRoute from '../../components/privateRoute';

@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import Loader from '../components/loader';
 import { fetchById, getByIdSelector } from '../features/apply/getByIdSlice';
 import { authSelector } from '../features/auth/authSlice';
-import StoreApply from '../views/StoreApply';
+import StoreApply from '../views/storeApply';
 
 type UseParams = {
 	id: string;
