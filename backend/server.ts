@@ -52,7 +52,7 @@ app.use((req, res, next) => {
 https: app.use((req, res, next) => {
 	res.header(
 		'Access-Control-Allow-Origin',
-		'https://blissful-curie-cd862e.netlify.app'
+		'https://candidate-frontend.netlify.app'
 	);
 	res.header(
 		'Access-Control-Allow-Headers',
