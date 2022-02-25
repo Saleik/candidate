@@ -6,10 +6,12 @@ import BackButton from '../components/backButton';
 import Button from '../components/button';
 import Loader from '../components/loader';
 import MessageBox from '../components/messageBox';
+import { authSelector } from '../features/auth/authSlice';
 import { registerSelector } from '../features/user/registerSlice';
 import useForm from '../hooks/useForm';
 
 const Register = () => {
+	const { isAuth } = useSelector(authSelector);
 	const [errorRegister, setErrorRegister] = useState<boolean | string>(false);
 	const [showPwd, setShowPwd] = useState(false);
 	const { isRegister, isLoading, error } = useSelector(registerSelector);
@@ -26,11 +28,11 @@ const Register = () => {
 	);
 
 	useEffect(() => {
-		if (isRegister) history.push('/applies');
+		if (isRegister || isAuth) history.push('/applies');
 		if (error.message) {
 			setErrorRegister(error.message);
 		}
-	}, [error.message, isRegister]);
+	}, [error.message, isRegister, isAuth]);
 	return (
 		<Container>
 			<BackButton />
