@@ -14,7 +14,12 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react"
+    "jsx": "react",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
-  "include": ["./src", "./jest"]
+  "include": ["./src/**/*.ts","./jest"],
+  "exclude": ["node_modules", ".vscode"]
 }
