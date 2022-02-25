@@ -3,14 +3,14 @@ import { Switch, Route } from 'react-router-dom';
 import styled from 'styled-components';
 //User
 import Signin from '../../views/Signin';
-/* import Register from '../../views/Register'; */
+import Register from '../../views/Register';
 
 //Private
 import PrivateRoute from '../../components/privateRoute';
-import Homepage from '../../views/Homepage';
 
 //Apply
 import EditOrStore from '../../middleware/EditOrStore';
+import Homepage from '../../views/homepage';
 
 const Main = () => {
 	return (
@@ -23,7 +23,7 @@ const Main = () => {
 
 				{/* User */}
 				<Route exact path='/' component={Signin} />
-				{/* <Route path='/register' component={Register} /> */}
+				<Route path='/register' component={Register} />
 			</Switch>
 		</Container>
 	);

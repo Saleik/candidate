@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
 import Countdown from './childs/Countdown';
-import { IModal } from '../../views/Homepage';
+import { IModal } from '../../views/homepage';
 import { Link } from 'react-router-dom';
 
 type Props = {
