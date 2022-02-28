@@ -1,6 +1,6 @@
 # Candidate "Manage your applications"
 
-##### Link:[https://candidate-react-frontend.netlify.app/signin]
+##### Link:[https://candidate-frontend.netlify.app]
 
 Candidate is a webapp for store your applications made across different platforms in one place,
 and to set a raise date for each one.
